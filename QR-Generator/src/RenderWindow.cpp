@@ -1,4 +1,4 @@
-#include "Log.h"
+﻿#include "Log.h"
 
 #include "GLFW/glfw3.h"
 #include "ImGui/imgui_impl_glfw.h"
@@ -8,6 +8,7 @@
 #include "Core.h"
 #include "Icon.h"
 #include "Arial.h"
+#include "NotoSans.h"
 #include "RenderWindow.h"
 
 bool g_WindowResized = false;
@@ -80,7 +81,17 @@ bool RenderWindow::ImGuiInit(const char* iniFileName) const noexcept
 {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontFromMemoryCompressedTTF(sg_ArialCompressedData, sg_ArialCompressedSize, 19);
+
+    {
+        static const ImWchar ranges[] =
+        {
+            0x0020, 0xFFFF,
+            0,
+        };
+        io.Fonts->AddFontFromMemoryCompressedTTF(sg_ArialCompressedData, sg_ArialCompressedSize, 19, nullptr, ranges);
+    }
+
+    //io.Fonts->AddFontFromMemoryCompressedTTF(NotoSans_compressed_data, NotoSans_compressed_size, 19, nullptr, io.Fonts->GetGlyphRangesJapanese());
     io.IniFilename = iniFileName;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
