@@ -43,6 +43,9 @@ int main()
             ImGui::SetCursorPosY(yPosCursor);
             qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || qrContentChanged;
 
+            ImGui::SameLine();
+            ImGui::Text("%u/%u", s.size(), 2953);
+
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || qrContentChanged;
 
@@ -58,9 +61,6 @@ int main()
             static int scale = 30;
             rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::clamp(scale, 1, 300);
-
-            ImGui::SameLine();
-            ImGui::Text("(%ux%u)", img.Width(), img.Height());
 
             static float colorPrimary[3] = { 0 };
             rerender = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || rerender;
@@ -86,8 +86,15 @@ int main()
                 static qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
                 if (qrContentChanged)
                 {
-                    const std::vector<qrcodegen::QrSegment> qrSegments = qrcodegen::QrSegment::makeSegments(s.c_str());
-                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, maskPattern, boostEccl);
+                    try
+                    {
+                        const std::vector<qrcodegen::QrSegment> qrSegments = qrcodegen::QrSegment::makeSegments(s.c_str());
+                        qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, maskPattern, boostEccl);
+                    }
+                    catch (const std::length_error& e)
+                    {
+                        Err("%s\nQR-Code konnte nicht generiert werden, da er zu groß ist.\nZum Beheben:\n- Verringere das Fehlerkorrekturlevel\n- Erhöhe das Maximale Level\n- Kürze die Texteingabe", e.what());
+                    }
                 }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
                 rerender = false;
