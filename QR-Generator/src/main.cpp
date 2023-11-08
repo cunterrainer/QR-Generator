@@ -38,6 +38,11 @@ int main()
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || qrContentChanged;
 
+            static bool boostEccl = true;
+            qrContentChanged = ImGui::Checkbox((const char*)u8"Erhöhe das Fehlerkorrekturlevel automatisch", &boostEccl) || qrContentChanged;
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip((const char*)u8"Es wird automatisch die kleinstmögliche QR-Code-Version innerhalb des angegebenen Bereichs verwendet.\nWenn aktiviert wird das Fehlerkorrekturlevel erhöht sofern dies ohne Erhöhung der Version möglich ist");
+
             static int borderSize = 3;
             rerender = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             borderSize = std::clamp(borderSize, 0, 30);
@@ -74,7 +79,7 @@ int main()
                 if (qrContentChanged)
                 {
                     const std::vector<qrcodegen::QrSegment> qrSegments = qrcodegen::QrSegment::makeSegments(s.c_str());
-                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, maskPattern, true);
+                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, maskPattern, boostEccl);
                 }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
                 rerender = false;
