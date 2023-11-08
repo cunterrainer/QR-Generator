@@ -46,6 +46,9 @@ int main()
             rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::clamp(scale, 1, 300);
 
+            ImGui::SameLine();
+            ImGui::Text("(%ux%u)", img.Width(), img.Height());
+
             static float colorPrimary[3] = { 0 };
             rerender = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || rerender;
 
