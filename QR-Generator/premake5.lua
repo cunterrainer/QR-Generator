@@ -60,6 +60,12 @@ project "QR-Generator"
         disablewarnings { "sign-conversion" }
         files "src/**.m"
 
+    filter { "toolset:gcc* or toolset:clang*", "platforms:x86" }
+        linkoptions "res/iconx86.res"
+
+    filter { "toolset:gcc* or toolset:clang*", "platforms:x64" }
+        linkoptions "res/icon.res"
+
     --gcc* clang* msc*
     filter "toolset:msc*"
         warnings "High"
@@ -68,7 +74,6 @@ project "QR-Generator"
         buildoptions { "/sdl" }
 
     filter { "toolset:gcc* or toolset:clang*" }
-        linkoptions "res/icon.res"
         enablewarnings {
             "cast-align",
             "cast-qual",
@@ -90,7 +95,7 @@ project "QR-Generator"
             --"conversion",
             "deprecated",
             "format-security",
-            "null-dereference",
+            --"null-dereference",
             "stack-protector",
             "vla",
             "shift-overflow"
