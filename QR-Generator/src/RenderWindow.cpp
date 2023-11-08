@@ -43,12 +43,14 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glfwSetWindowPos(m_Window, (mode->width - width) / 2, (mode->height - height) / 2);
 
-    // set window icon
-    GLFWimage icon_s;
-    icon_s.pixels = sg_QrcodescanData;
-    icon_s.width = sg_QrcodescanWidth;
-    icon_s.height = sg_QrcodescanHeight;
-    glfwSetWindowIcon(m_Window, 1, &icon_s);
+    #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons
+        // set window icon
+        GLFWimage icon_s;
+        icon_s.pixels = sg_QrcodescanData;
+        icon_s.width = sg_QrcodescanWidth;
+        icon_s.height = sg_QrcodescanHeight;
+        glfwSetWindowIcon(m_Window, 1, &icon_s);
+    #endif
 
     glfwMakeContextCurrent(m_Window);
     glfwSwapInterval(0);
