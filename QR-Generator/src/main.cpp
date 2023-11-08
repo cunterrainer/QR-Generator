@@ -29,33 +29,37 @@ int main()
             ImGui::SetNextWindowPos(newPos);
 
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
-            static bool recreate = true;
+            static bool rerender = true;
+            static bool qrContentChanged = true;
 
             static std::string s;
-            recreate = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || recreate;
+            qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || qrContentChanged;
 
             static int eccLevel = 0;
-            recreate = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || recreate;
+            qrContentChanged = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || qrContentChanged;
 
             static int borderSize = 3;
-            recreate = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
+            rerender = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             borderSize = std::clamp(borderSize, 0, 30);
 
             static int scale = 30;
-            recreate = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
+            rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::clamp(scale, 1, 300);
 
             static float colorPrimary[3] = { 0 };
-            recreate = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || recreate;
+            rerender = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || rerender;
 
             static float colorSecondary[3] = { 1, 1, 1 };
-            recreate = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || recreate;
+            rerender = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || rerender;
 
-            if (recreate)
+            if (rerender || qrContentChanged)
             {
-                qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
+                static qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
+                if (qrContentChanged)
+                    qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
-                recreate = false;
+                rerender = false;
+                qrContentChanged = false;
             }
 
             newPos.x += ImGui::GetWindowWidth();
