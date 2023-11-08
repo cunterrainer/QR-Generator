@@ -1,4 +1,3 @@
-#ifdef LINUX
 #ifndef MESSAGEBOX_X11_MESSAGEBOX_H
 #define MESSAGEBOX_X11_MESSAGEBOX_H
 
@@ -20,4 +19,3 @@ int Messagebox(const char* title, const wchar_t* text, const Button* buttons, in
 #endif
     
 #endif //MESSAGEBOX_X11_MESSAGEBOX_H
-#endif

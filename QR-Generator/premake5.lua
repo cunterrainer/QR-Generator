@@ -8,8 +8,6 @@ project "QR-Generator"
         "src/**.h",
         "vendor/stb/**.h",
         "vendor/stb/**.cpp",
-        "vendor/MsgBoxX11/**.cpp",
-        "vendor/MsgBoxX11/**.h",
         "vendor/qrcodegen/cpp/qrcodegen.hpp",
         "vendor/qrcodegen/cpp/qrcodegen.cpp",
     }
@@ -46,6 +44,11 @@ project "QR-Generator"
         }
 
     filter "system:linux"
+        files {
+            "vendor/MsgBoxX11/**.cpp",
+            "vendor/MsgBoxX11/**.h"
+        }
+
         links {
             "GL",
             "gtk-3",
@@ -60,10 +63,10 @@ project "QR-Generator"
         disablewarnings { "sign-conversion" }
         files "src/**.m"
 
-    filter { "toolset:gcc* or toolset:clang*", "platforms:x86" }
+    filter { "toolset:gcc* or toolset:clang*", "platforms:x86", "system:windows" }
         linkoptions "res/iconx86.res"
 
-    filter { "toolset:gcc* or toolset:clang*", "platforms:x64" }
+    filter { "toolset:gcc* or toolset:clang*", "platforms:x64", "system:windows" }
         linkoptions "res/icon.res"
 
     --gcc* clang* msc*
@@ -105,7 +108,6 @@ project "QR-Generator"
     filter "toolset:gcc*"
         warnings "Extra"
         externalwarnings "Off"
-        linkoptions "res/icon.res"
         filter { "toolset:gcc*", "not system:macosx" }
             linkgroups "on" -- activate position independent linking
         filter "toolset:gcc*"

@@ -1,4 +1,3 @@
-#ifdef LINUX
 /*
  * Copyright (c) 2018 Eleobert Espírito Santo eleobert@hotmail.com
  *
@@ -324,4 +323,3 @@ int Messagebox(const char* title, const wchar_t* text, const Button* buttons, in
 
     return res;
 }
-#endif

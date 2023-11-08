@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <cstdio>
+#include <cstring>
 #include <utility>
 #include <iostream>
+#include <algorithm>
 
 #include "Core.h"
 
@@ -34,7 +36,7 @@
         return result;
     }
 
-    int MsgBoxError(const char* message)
+    inline int MsgBoxError(const char* message)
     {
         Button btn;
         btn.label = L"Ok";
