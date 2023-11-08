@@ -55,11 +55,23 @@ int main()
             static float colorSecondary[3] = { 1, 1, 1 };
             rerender = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || rerender;
 
+            static int minVersion = 1;
+            static int maxVersion = 40;
+            ImGui::Text("Versionsbereich");
+            qrContentChanged = ImGui::InputInt("Minimum", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
+            qrContentChanged = ImGui::InputInt("Maximum", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
+            minVersion = std::clamp(minVersion, 1, maxVersion);
+            maxVersion = std::clamp(maxVersion, minVersion, 40);
+
+
             if (rerender || qrContentChanged)
             {
                 static qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
                 if (qrContentChanged)
-                    qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
+                {
+                    const std::vector<qrcodegen::QrSegment> qrSegments = qrcodegen::QrSegment::makeSegments(s.c_str());
+                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, -1, true);
+                }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
                 rerender = false;
                 qrContentChanged = false;
