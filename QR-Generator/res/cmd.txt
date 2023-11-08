@@ -1,2 +1,3 @@
 for gcc/clang:
 	windres icon.rc -O coff -o icon.res
+	windres icon.rc -O coff -F pe-i386 -o icon.res (for x86)
