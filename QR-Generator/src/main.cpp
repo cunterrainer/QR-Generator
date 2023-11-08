@@ -43,9 +43,6 @@ int main()
             ImGui::SetCursorPosY(yPosCursor);
             qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || qrContentChanged;
 
-            ImGui::SameLine();
-            ImGui::Text("%u/%u", s.size(), 2953);
-
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || qrContentChanged;
 
@@ -61,6 +58,9 @@ int main()
             static int scale = 30;
             rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::clamp(scale, 1, 300);
+
+            ImGui::SameLine();
+            ImGui::Text("(%ux%u)", img.Width(), img.Height());
 
             static float colorPrimary[3] = { 0 };
             rerender = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || rerender;
