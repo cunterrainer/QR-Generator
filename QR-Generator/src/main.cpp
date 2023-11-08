@@ -1,9 +1,11 @@
 ﻿#include <iostream>
+#include <algorithm>
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_stdlib.h"
 #include "qrcodegen/cpp/qrcodegen.hpp"
 
+#include "Log.h"
 #include "Clang.h"
 #include "Image.h"
 #include "RenderWindow.h"
@@ -27,29 +29,34 @@ int main()
             ImGui::SetNextWindowPos(newPos);
 
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
+            static bool recreate = true;
+
             static std::string s;
-            if (ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s))
-            {
-                int border = 2;
-                qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), qrcodegen::QrCode::Ecc::LOW);
-                img.Assign(qr, border, (size_t)(windowWidth - ImGui::GetWindowWidth()) / (qr.getSize() + border*2));
-            }
+            recreate = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || recreate;
 
             static int eccLevel = 0;
-            ImGui::SetNextItemWidth(100.f);
-            ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0");
+            recreate = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || recreate;
 
-
-            ImGui::SameLine();
             static int borderSize = 3;
-            ImGui::SetNextItemWidth(100.f);
-            ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal);
-            borderSize = std::min(borderSize, 100);
+            recreate = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
+            borderSize = std::clamp(borderSize, 0, 100);
 
-            ImGui::SameLine();
-            static int scale = 3;
-            ImGui::SetNextItemWidth(100.f);
-            ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal);
+            static int scale = 30;
+            recreate = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
+            scale = std::clamp(scale, 1, 300);
+
+            static float colorsDark[3] = { 0 };
+            recreate = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorsDark, ImGuiColorEditFlags_DisplayHex) || recreate;
+
+            static float colorsLight[3] = { 1, 1, 1 };
+            recreate = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorsLight, ImGuiColorEditFlags_DisplayHex) || recreate;
+
+            if (recreate)
+            {
+                qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
+                img.Assign(qr, borderSize, scale);
+                recreate = false;
+            }
 
             newPos.x += ImGui::GetWindowWidth();
             ImGui::End();

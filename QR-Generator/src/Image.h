@@ -5,6 +5,8 @@
 #include "GLFW/glfw3.h"
 #include "qrcodegen/cpp/qrcodegen.hpp"
 
+#include "Log.h"
+
 class Image
 {
 public:
