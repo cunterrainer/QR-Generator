@@ -57,12 +57,16 @@ int main()
 
             static int minVersion = 1;
             static int maxVersion = 40;
-            ImGui::Text("Versionsbereich");
-            qrContentChanged = ImGui::InputInt("Minimum", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
-            qrContentChanged = ImGui::InputInt("Maximum", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
+            qrContentChanged = ImGui::InputInt("Mindest Version", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
+            qrContentChanged = ImGui::InputInt("Maximal Version", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             minVersion = std::clamp(minVersion, 1, maxVersion);
             maxVersion = std::clamp(maxVersion, minVersion, 40);
 
+            static int maskPattern = -1;
+            qrContentChanged = ImGui::InputInt("Maske", &maskPattern, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
+            maskPattern = std::clamp(maskPattern, -1, 7);
+            if (ImGui::IsItemHovered())
+                ImGui::SetTooltip("(-1 automatisch, 0 bis 7 manuell)");
 
             if (rerender || qrContentChanged)
             {
@@ -70,7 +74,7 @@ int main()
                 if (qrContentChanged)
                 {
                     const std::vector<qrcodegen::QrSegment> qrSegments = qrcodegen::QrSegment::makeSegments(s.c_str());
-                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, -1, true);
+                    qr = qrcodegen::QrCode::encodeSegments(qrSegments, (qrcodegen::QrCode::Ecc)eccLevel, minVersion, maxVersion, maskPattern, true);
                 }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
                 rerender = false;
