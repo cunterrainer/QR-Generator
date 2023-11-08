@@ -1,6 +1,6 @@
 project "QR-Generator"
     language "C++"
-    cppdialect "C++20"
+    cppdialect "C++17"
     characterset "Unicode"
 
     files {
@@ -79,7 +79,7 @@ project "QR-Generator"
             "cast-qual",
             --"ctor-dtor-privacy",
             "disabled-optimization",
-            "format=2",
+            --"format=2",
             "init-self",
             "missing-include-dirs",
             "overloaded-virtual",
@@ -94,13 +94,13 @@ project "QR-Generator"
             "alloca",
             --"conversion",
             "deprecated",
-            "format-security",
+            --"format-security",
             --"null-dereference",
             "stack-protector",
             "vla",
             "shift-overflow"
         }
-        disablewarnings "unknown-warning-option"
+        disablewarnings { "unknown-warning-option", "format-security" }
 
     filter "toolset:gcc*"
         warnings "Extra"

@@ -54,11 +54,11 @@ public:
     {
         assert(scale != 0 && "Image::Assign scale can't be less than 1");
 
-        const GLsizei wh = (qr.getSize() + border * 2) * scale;
+        const GLsizei wh = (GLsizei)((qr.getSize() + border * 2) * scale);
         GLubyte* tmp = new (std::nothrow) GLubyte[(unsigned int)(NumOfChannels * wh * wh)];
         if (tmp == nullptr)
         {
-            Err("Failed to allocate memory for qr code image, requested: {} bytes ({} GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
+            Err("Failed to allocate memory for qr code image, requested: %u bytes (%u GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
             return;
         }
 

@@ -14,7 +14,7 @@ bool g_WindowResized = false;
 
 RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share) noexcept
 {
-    glfwSetErrorCallback([]([[maybe_unused]] int error, [[maybe_unused]] const char* description) { Err("[GLFW] {}: {}", error, description); });
+    glfwSetErrorCallback([]([[maybe_unused]] int error, [[maybe_unused]] const char* description) { Err("[GLFW] %d: %s", error, description); });
 
     if (!glfwInit())
     {
@@ -32,10 +32,10 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     m_Window = glfwCreateWindow(width, height, title, monitor, share);
     if (m_Window == NULL)
     {
-        Err("Failed to create window w: {} h: {} t: {}", width, height, title);
+        Err("Failed to create window w: %d h: %d t: %s", width, height, title);
         return;
     }
-    Log("Created window w: {} h: {} t: {}", width, height, title);
+    Log("Created window w: %d h: %d t: %s", width, height, title);
 
     glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow*, int w, int h) { glViewport(0, 0, w, h); g_WindowResized = true; });
 
