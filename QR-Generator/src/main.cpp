@@ -106,7 +106,7 @@ int main()
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.f, 0.f });
             ImGui::Begin("QRCodeImage", nullptr, IMGUI_WINDOW_FLAGS);
         
-            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) * 0.75f;
+            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) * 0.65f;
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
             ImGui::SetCursorPos(ImVec2(xPos, yPos));
