@@ -93,7 +93,7 @@ int main()
                     }
                     catch (const std::length_error& e)
                     {
-                        Err("%s\nQR-Code konnte nicht generiert werden, da er zu groß ist.\nZum Beheben:\n- Verringere das Fehlerkorrekturlevel\n- Erhöhe das Maximale Level\n- Kürze die Texteingabe", e.what());
+                        Err("%s\nQR-Code konnte nicht generiert werden da er zu groß ist.\nZum Beheben:\n- Verringere das Fehlerkorrekturlevel\n- Erhöhe das Maximale Level\n- Kürze die Texteingabe", e.what());
                     }
                 }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
