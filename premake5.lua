@@ -25,8 +25,8 @@ filter { "configurations:Debug" }
 filter { "configurations:Release" }
     runtime "Release"
     symbols "off"
+    defines "NDEBUG"
     optimize "Speed"
-    define "NDEBUG"
 filter {}
 
 -- only for visual studio

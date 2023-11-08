@@ -6,6 +6,7 @@
 #include "ImGui/imgui_stdlib.h"
 
 #include "Core.h"
+#include "Icon.h"
 #include "Arial.h"
 #include "RenderWindow.h"
 
@@ -41,6 +42,13 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     // center the window
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glfwSetWindowPos(m_Window, (mode->width - width) / 2, (mode->height - height) / 2);
+
+    // set window icon
+    GLFWimage icon_s;
+    icon_s.pixels = sg_QrcodescanData;
+    icon_s.width = sg_QrcodescanWidth;
+    icon_s.height = sg_QrcodescanHeight;
+    glfwSetWindowIcon(m_Window, 1, &icon_s);
 
     glfwMakeContextCurrent(m_Window);
     glfwSwapInterval(0);

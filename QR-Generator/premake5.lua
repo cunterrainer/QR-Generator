@@ -64,13 +64,15 @@ project "QR-Generator"
     filter "toolset:msc*"
         warnings "High"
         externalwarnings "Default"
+        files "res/icon.rc"
         buildoptions { "/sdl" }
 
     filter { "toolset:gcc* or toolset:clang*" }
+        linkoptions "res/icon.res"
         enablewarnings {
             "cast-align",
             "cast-qual",
-            "ctor-dtor-privacy",
+            --"ctor-dtor-privacy",
             "disabled-optimization",
             "format=2",
             "init-self",
@@ -85,7 +87,7 @@ project "QR-Generator"
             "unreachable-code",
             "unused",
             "alloca",
-            "conversion",
+            --"conversion",
             "deprecated",
             "format-security",
             "null-dereference",
@@ -98,6 +100,7 @@ project "QR-Generator"
     filter "toolset:gcc*"
         warnings "Extra"
         externalwarnings "Off"
+        linkoptions "res/icon.res"
         filter { "toolset:gcc*", "not system:macosx" }
             linkgroups "on" -- activate position independent linking
         filter "toolset:gcc*"
