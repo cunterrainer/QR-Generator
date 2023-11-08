@@ -14,7 +14,7 @@
 int main()
 {
     Image img;
-    RenderWindow window;
+    RenderWindow window(1600, 920, "QR-Code-Generator");
     float yPosCursor = ImGui::GetStyle().WindowPadding.y;
     
     while (window.IsOpen())
@@ -103,15 +103,16 @@ int main()
             ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
             ImGui::SetNextWindowSize({ windowWidth / 2, windowHeight });
             ImGui::SetNextWindowPos(newPos);
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.f, 0.f });
             ImGui::Begin("QRCodeImage", nullptr, IMGUI_WINDOW_FLAGS);
         
-            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) - 2*std::max(ImGui::GetStyle().WindowPadding.x, ImGui::GetStyle().WindowPadding.y) - 280;
+            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) * 0.75f;
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
-            const ImVec2 p = ImGui::GetCursorScreenPos();
-            ImGui::SetCursorScreenPos(ImVec2(p.x + xPos, p.y + yPos));
+            ImGui::SetCursorPos(ImVec2(xPos, yPos));
             ImGui::Image((void*)(intptr_t)img.GetGpuImage(), { imgSize, imgSize });
             ImGui::End();
+            ImGui::PopStyleVar();
         }
 
         window.EndFrame();
