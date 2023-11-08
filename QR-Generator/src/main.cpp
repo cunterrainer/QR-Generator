@@ -36,6 +36,22 @@ int main()
                 img.Assign(qr, border, (size_t)(windowHeight - ImGui::GetWindowHeight()) / (qr.getSize() + border*2));
             }
 
+            static int eccLevel = 0;
+            ImGui::SetNextItemWidth(100.f);
+            ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0");
+
+
+            ImGui::SameLine();
+            static int borderSize = 3;
+            ImGui::SetNextItemWidth(100.f);
+            ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal);
+            borderSize = std::min(borderSize, 100);
+
+            ImGui::SameLine();
+            static int scale = 3;
+            ImGui::SetNextItemWidth(100.f);
+            ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal);
+
             newPos.y += ImGui::GetWindowHeight();
             previousHeight = ImGui::GetWindowHeight();
             ImGui::End();
