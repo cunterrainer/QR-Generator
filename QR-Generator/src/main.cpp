@@ -14,7 +14,7 @@
 int main()
 {
     Image img;
-    RenderWindow window(1600, 920, "QR-Code-Generator");
+    RenderWindow window(1130, 740, "QR-Code-Generator");
     float yPosCursor = ImGui::GetStyle().WindowPadding.y;
     
     while (window.IsOpen())
@@ -23,7 +23,7 @@ int main()
         ImVec2 newPos = window.Pos();
         const float windowWidth = window.Size().x;
         const float windowHeight = window.Size().y;
-
+        Log("{} {}", windowWidth, windowHeight);
         if (g_WindowResized)
         {
             yPosCursor = ImGui::GetStyle().WindowPadding.y;
