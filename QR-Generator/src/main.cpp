@@ -72,7 +72,7 @@ int main()
             static int maxVersion = 40;
             qrContentChanged = ImGui::InputInt("Mindest Version", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             qrContentChanged = ImGui::InputInt("Maximal Version", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
-            minVersion = std::clamp(minVersion, 1, maxVersion);
+            minVersion = std::clamp(minVersion, 1, std::max(maxVersion, 1));
             maxVersion = std::clamp(maxVersion, minVersion, 40);
 
             static int maskPattern = -1;
