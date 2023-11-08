@@ -15,6 +15,7 @@ int main()
 {
     Image img;
     RenderWindow window;
+    float yPosCursor = ImGui::GetStyle().WindowPadding.y;
     
     while (window.IsOpen())
     {
@@ -22,6 +23,12 @@ int main()
         ImVec2 newPos = window.Pos();
         const float windowWidth = window.Size().x;
         const float windowHeight = window.Size().y;
+
+        if (g_WindowResized)
+        {
+            yPosCursor = ImGui::GetStyle().WindowPadding.y;
+            g_WindowResized = false;
+        }
 
         {
             ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
@@ -33,6 +40,7 @@ int main()
             static bool qrContentChanged = true;
 
             static std::string s;
+            ImGui::SetCursorPosY(yPosCursor);
             qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || qrContentChanged;
 
             static int eccLevel = 0;
@@ -85,8 +93,9 @@ int main()
                 rerender = false;
                 qrContentChanged = false;
             }
-
             newPos.x += ImGui::GetWindowWidth();
+            if (yPosCursor == ImGui::GetStyle().WindowPadding.y)
+                yPosCursor = (windowHeight / 2 - ImGui::GetCursorPosY() / 2);
             ImGui::End();
         }
 
@@ -96,7 +105,7 @@ int main()
             ImGui::SetNextWindowPos(newPos);
             ImGui::Begin("QRCodeImage", nullptr, IMGUI_WINDOW_FLAGS);
         
-            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) - 2*std::max(ImGui::GetStyle().WindowPadding.x, ImGui::GetStyle().WindowPadding.y);
+            const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) - 2*std::max(ImGui::GetStyle().WindowPadding.x, ImGui::GetStyle().WindowPadding.y) - 280;
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
             const ImVec2 p = ImGui::GetCursorScreenPos();

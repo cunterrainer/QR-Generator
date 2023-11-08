@@ -8,6 +8,8 @@
 
 #define IMGUI_WINDOW_FLAGS ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar
 
+extern bool g_WindowResized;
+
 class RenderWindow
 {
 public:

@@ -9,6 +9,7 @@
 #include "Arial.h"
 #include "RenderWindow.h"
 
+bool g_WindowResized = false;
 
 RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share) noexcept
 {
@@ -35,7 +36,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     }
     Log("Created window w: {} h: {} t: {}", width, height, title);
 
-    glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow*, int w, int h) { glViewport(0, 0, w, h); });
+    glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow*, int w, int h) { glViewport(0, 0, w, h); g_WindowResized = true; });
 
     // center the window
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -47,6 +48,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     glClearColor(0.27f, 0.27f, 0.27f, 1.0f);
     if (!ImGuiInit()) return;
     ImGuiSetTheme();
+    g_WindowResized = true;
 }
 
 
