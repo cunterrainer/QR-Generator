@@ -45,16 +45,16 @@ int main()
             recreate = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
             scale = std::clamp(scale, 1, 300);
 
-            static float colorsDark[3] = { 0 };
-            recreate = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorsDark, ImGuiColorEditFlags_DisplayHex) || recreate;
+            static float colorPrimary[3] = { 0 };
+            recreate = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || recreate;
 
-            static float colorsLight[3] = { 1, 1, 1 };
-            recreate = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorsLight, ImGuiColorEditFlags_DisplayHex) || recreate;
+            static float colorSecondary[3] = { 1, 1, 1 };
+            recreate = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || recreate;
 
             if (recreate)
             {
                 qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
-                img.Assign(qr, borderSize, scale);
+                img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
                 recreate = false;
             }
 

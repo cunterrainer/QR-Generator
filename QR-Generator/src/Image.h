@@ -49,7 +49,7 @@ public:
         Delete();
     }
 
-    inline void Assign(const qrcodegen::QrCode& qr, int32_t border, size_t scale = 1)
+    inline void Assign(const qrcodegen::QrCode& qr, int32_t border, size_t scale, float colorPrimary[3], float colorSecondary[3])
     {
         assert(scale != 0 && "Image::Assign scale can't be less than 1");
 
@@ -72,12 +72,12 @@ public:
         {
             for (int32_t x = -border; x < qr.getSize() + border; x++)
             {
-                const uint8_t pixelColor = qr.getModule(x, y) ? 0 : 0xFF;
+                const bool dark = qr.getModule(x, y);
                 for (size_t i = 0; i < scale; ++i)
                 {
-                    m_Pixel[idx++] = pixelColor;
-                    m_Pixel[idx++] = pixelColor;
-                    m_Pixel[idx++] = pixelColor;
+                    m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[0] * 255.0) : static_cast<GLubyte>(colorSecondary[0] * 255.0);
+                    m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[1] * 255.0) : static_cast<GLubyte>(colorSecondary[1] * 255.0);
+                    m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[2] * 255.0) : static_cast<GLubyte>(colorSecondary[2] * 255.0);
                     m_Pixel[idx++] = 0xFF;
                 }
             }
