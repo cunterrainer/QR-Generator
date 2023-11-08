@@ -1,4 +1,6 @@
 #pragma once
+#include <new>
+#include <cmath>
 #include <string>
 #include <cstdint>
 
@@ -50,10 +52,20 @@ public:
     inline void Assign(const qrcodegen::QrCode& qr, int32_t border, size_t scale = 1)
     {
         assert(scale != 0 && "Image::Assign scale can't be less than 1");
+
+        const GLsizei wh = (qr.getSize() + border * 2) * scale;
+        GLubyte* tmp = new (std::nothrow) GLubyte[(unsigned int)(NumOfChannels * wh * wh)];
+        if (tmp == nullptr)
+        {
+            Err("Failed to allocate memory for qr code image, requested: {} bytes ({} GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
+            return;
+        }
+
         Delete();
-        m_Width = (qr.getSize() + border * 2) * scale;
-        m_Height = (qr.getSize() + border * 2) * scale;
-        m_Pixel = new GLubyte[(unsigned int)(NumOfChannels * m_Width * m_Height)];
+        m_Width = wh;
+        m_Height = wh;
+        m_Pixel = tmp;
+
 
         size_t idx = 0;
         for (int32_t y = -border; y < qr.getSize() + border; y++)

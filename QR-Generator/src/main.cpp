@@ -39,7 +39,7 @@ int main()
 
             static int borderSize = 3;
             recreate = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
-            borderSize = std::clamp(borderSize, 0, 100);
+            borderSize = std::clamp(borderSize, 0, 30);
 
             static int scale = 30;
             recreate = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || recreate;
