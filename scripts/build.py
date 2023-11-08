@@ -65,9 +65,9 @@ def main():
     if sys.platform == "win32":
         exePath = "vendor/premake5.exe"
     elif sys.platform == "linux":
-        exePath = "vendor/premake5"
+        exePath = "vendor/premake5linux"
     elif sys.platform == "darwin":
-        exePath = "premake5"
+        exePath = "vendor/premake5mac"
     else:
         print("Unsupported operating system: " + sys.platform)
         return
