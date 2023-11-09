@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 
-#include "nfd/nfd.h"
+#include "nfd/nfd.hpp"
 #include "stb/stb_image_write.h"
 
 #include "Log.h"
@@ -13,18 +13,24 @@
 
 inline std::filesystem::path SaveFileDialog()
 {
+    NFD_Init();
+
     std::filesystem::path path;
-    nfdchar_t* savePath = NULL;
-    nfdresult_t result = NFD_SaveDialog("png;jpg;jpeg;bmp;tga", NULL, &savePath);
+    nfdchar_t* savePath = nullptr;
+    const nfdfilteritem_t filterItems[5] = { { "PNG", "png" }, { "JPG", "jpg" }, { "JPEG", "jpeg" }, { "BMP", "bmp" }, { "TGA", "tga" } };
+    const nfdresult_t result = NFD_SaveDialog(&savePath, filterItems, 5, NULL, "Untitled.png");
+    
     if (result == NFD_OKAY)
     {
         path = savePath;
-        free(savePath);
+        NFD_FreePath(savePath);
     }
     else if (result == NFD_CANCEL)
         Log("[NFD] User pressed cancel");
     else // error opening the file
         Err("Dateidialog konnte nicht geöffnet werden:\n%s", NFD_GetError());
+
+    NFD_Quit();
     return path;
 }
 

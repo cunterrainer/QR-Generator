@@ -19,7 +19,7 @@ project "QR-Generator"
         "../Dependencies/GLFW/include",
         "../Dependencies/ImGui/include",
         "../Dependencies/tinyfiledialogs/include",
-        "../Dependencies/nativefiledialog/include"
+        "../Dependencies/nativefiledialog-extended/src/include"
     }
 
     externalincludedirs {
@@ -31,10 +31,10 @@ project "QR-Generator"
 
     links {
         "glfw",
-        "nativefiledialog",
         "ImGui",
         "Clip",
-        "tinyfiledialogs"
+        "tinyfiledialogs",
+        "nativefiledialog-extended"
     }
 
     filter "system:windows"
