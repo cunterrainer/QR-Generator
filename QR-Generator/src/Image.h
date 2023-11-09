@@ -94,6 +94,17 @@ public:
         CreateGpuImage();
     }
 
+    inline uint32_t* Data32()
+    {
+        size_t a = 0;
+        uint32_t* tmp = new uint32_t[m_Width * m_Height];
+        for (size_t i = 0; i < (size_t)m_Width * m_Height * NumOfChannels;)
+        {
+            tmp[a++] = (0xFF << 24) | ((uint32_t)m_Pixel[i++] << 16) | ((uint32_t)m_Pixel[i++] << 8) | ((uint32_t)m_Pixel[i++] << 0);
+        }
+        return tmp;
+    }
+
     inline GLuint GetGpuImage() const { return m_GpuImage; }
     inline int Height() const { return m_Height; }
     inline int Width() const { return m_Width; }

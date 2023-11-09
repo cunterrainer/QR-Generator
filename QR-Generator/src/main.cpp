@@ -4,6 +4,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_stdlib.h"
 #include "qrcodegen/cpp/qrcodegen.hpp"
+#include "clip/clip.h"
 
 #include "Log.h"
 #include "Clang.h"
@@ -100,6 +101,25 @@ int main()
                 rerender = false;
                 qrContentChanged = false;
             }
+            if (ImGui::Button("copy"))
+            {
+                clip::image_spec spec;
+                spec.width = img.Width();
+                spec.height = img.Height();
+                spec.bits_per_pixel = 8*4;
+                spec.bytes_per_row = spec.width * 4;
+                spec.red_mask = 0xff;
+                spec.green_mask = 0xff00;
+                spec.blue_mask = 0xff0000;
+                spec.alpha_mask = 0xff000000;
+                spec.red_shift = 0;
+                spec.green_shift = 8;
+                spec.blue_shift = 16;
+                spec.alpha_shift = 24;
+                clip::image cimg(img.Data32(), spec);
+                clip::set_image(cimg);
+            }
+
             newPos.x += ImGui::GetWindowWidth();
             if (yPosCursor == ImGui::GetStyle().WindowPadding.y)
                 yPosCursor = (windowHeight / 2 - ImGui::GetCursorPosY() / 2);

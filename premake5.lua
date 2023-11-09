@@ -37,6 +37,7 @@ staticruntime "on"
 removeunreferencedcodedata "on"
 
 include "QR-Generator"
+include "Dependencies/Clip"
 include "Dependencies/GLFW"
 include "Dependencies/ImGui"
 include "Dependencies/nativefiledialog"

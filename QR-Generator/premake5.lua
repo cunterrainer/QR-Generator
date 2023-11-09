@@ -15,6 +15,7 @@ project "QR-Generator"
     includedirs {
         "src",
         "vendor",
+        "../Dependencies/clip/include",
         "../Dependencies/GLFW/include",
         "../Dependencies/ImGui/include",
         "../Dependencies/nativefiledialog/include"
@@ -30,7 +31,8 @@ project "QR-Generator"
     links {
         "glfw",
         "nativefiledialog",
-        "ImGui"
+        "ImGui",
+        "Clip"
     }
 
     filter "system:windows"
@@ -39,6 +41,7 @@ project "QR-Generator"
             "gdi32",
             "opengl32",
             "shell32",
+            "Shlwapi",
             "ole32",
             "uuid"
         }
