@@ -135,7 +135,8 @@ int main()
                 spec.blue_shift = 16;
                 spec.alpha_shift = 24;
                 clip::image cimg(img.Data32().data(), spec);
-                clip::set_image(cimg);
+                try { clip::set_image(cimg); }
+                catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
             }
             ImGui::End();
             ImGui::PopStyleVar();
