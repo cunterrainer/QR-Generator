@@ -13,7 +13,7 @@
 class Image
 {
 public:
-    static constexpr int NumOfChannels = 4;
+    static constexpr int NumOfChannels = 3;
 private:
     GLubyte* m_Pixel = nullptr;
     GLsizei m_Width = 0;
@@ -35,6 +35,8 @@ private:
 
     inline void CreateGpuImage()
     {
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
         // Create a OpenGL texture identifier
         glGenTextures(1, &m_GpuImage);
         glBindTexture(GL_TEXTURE_2D, m_GpuImage);
@@ -42,7 +44,7 @@ private:
         // Setup filtering parameters for display
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_Pixel);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_Pixel);
     }
 public:
     inline ~Image()
@@ -79,7 +81,6 @@ public:
                     m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[0] * 255.0) : static_cast<GLubyte>(colorSecondary[0] * 255.0);
                     m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[1] * 255.0) : static_cast<GLubyte>(colorSecondary[1] * 255.0);
                     m_Pixel[idx++] = dark ? static_cast<GLubyte>(colorPrimary[2] * 255.0) : static_cast<GLubyte>(colorSecondary[2] * 255.0);
-                    m_Pixel[idx++] = 0xFF;
                 }
             }
             
@@ -87,7 +88,7 @@ public:
             for (size_t i = 0; i < scale - 1; ++i)
             {
                 std::memcpy(&m_Pixel[idx], &m_Pixel[idx - m_Width * NumOfChannels], m_Width * NumOfChannels);
-                idx += 4 * m_Width;
+                idx += NumOfChannels * m_Width;
             }
         }
         CreateGpuImage();
