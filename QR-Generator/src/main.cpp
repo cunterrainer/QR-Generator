@@ -134,8 +134,8 @@ int main()
                 spec.green_shift = 8;
                 spec.blue_shift = 16;
                 spec.alpha_shift = 24;
-                clip::image cimg(img.Data32().data(), spec);
-                try { clip::set_image(cimg); }
+                try { clip::image cimg(img.Data32().data(), spec);  clip::set_image(cimg); }
+                catch (const std::bad_alloc& e)  { Log("Failed to create uint32 image vector (%s)", e.what()); }
                 catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
             }
             ImGui::End();
