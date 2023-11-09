@@ -20,6 +20,7 @@ private:
 	inline void PollEvents() const noexcept { glfwPollEvents();             }
 	inline void WaitEvents() const noexcept { glfwWaitEvents();             }
 
+	void ImGuiLoadFonts() const noexcept;
 	bool ImGuiInit(const char* iniFileName = nullptr) const noexcept;
 	void ImGuiStartFrame() const noexcept;
 	void ImGuiRender() const noexcept;
