@@ -11,6 +11,7 @@
 #include "Log.h"
 #include "Clang.h"
 #include "Image.h"
+#include "ImageWriter.h"
 #include "RenderWindow.h"
 
 
@@ -140,6 +141,8 @@ int main()
                 catch (const std::bad_alloc& e)  { Log("Failed to create uint32 image vector (%s)", e.what()); }
                 catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
             }
+            ImGui::SetCursorPosX(xPos);
+            if (ImGui::Button("Speichern", ImVec2(ImGui::GetItemRectSize().x, 28))) SaveImage(img);
             ImGui::End();
             ImGui::PopStyleVar();
         }
