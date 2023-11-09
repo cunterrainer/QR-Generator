@@ -1,6 +1,7 @@
 ﻿#include "Log.h"
 
 #include "GLFW/glfw3.h"
+#include "stb/stb_image.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
 #include "ImGui/imgui_stdlib.h"
@@ -44,12 +45,13 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     glfwSetWindowPos(m_Window, (mode->width - width) / 2, (mode->height - height) / 2);
 
     #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons
-        // set window icon
         GLFWimage icon_s;
-        icon_s.pixels = sg_QrcodescanData;
-        icon_s.width = sg_QrcodescanWidth;
-        icon_s.height = sg_QrcodescanHeight;
-        glfwSetWindowIcon(m_Window, 1, &icon_s);
+        icon_s.pixels = stbi_load_from_memory(sg_RawIconData, sg_RawIconDataRelativeSize, &icon_s.width, &icon_s.height, NULL, sg_IconChannels);
+        if (icon_s.pixels != NULL)
+        {
+            glfwSetWindowIcon(m_Window, 1, &icon_s);
+            stbi_image_free(icon_s.pixels);
+        }
     #endif
 
     glfwMakeContextCurrent(m_Window);
