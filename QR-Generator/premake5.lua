@@ -82,7 +82,7 @@ project "QR-Generator"
     filter { "toolset:gcc* or toolset:clang*" }
         enablewarnings {
             "cast-align",
-            "cast-qual",
+            --"cast-qual",
             --"ctor-dtor-privacy",
             "disabled-optimization",
             --"format=2",
@@ -92,7 +92,7 @@ project "QR-Generator"
             "redundant-decls",
             "shadow",
             "sign-promo",
-            "switch-default",
+            --"switch-default",
             "undef",
             "uninitialized",
             "unreachable-code",
@@ -106,7 +106,7 @@ project "QR-Generator"
             "vla",
             "shift-overflow"
         }
-        disablewarnings { "unknown-warning-option", "format-security" }
+        disablewarnings { "unknown-warning-option", "format-security", "sequence-point" }
 
     filter "toolset:gcc*"
         warnings "Extra"
@@ -118,7 +118,7 @@ project "QR-Generator"
             "noexcept",
             "strict-null-sentinel",
             "array-bounds=2",
-            "duplicated-branches",
+            --"duplicated-branches",
             "duplicated-cond",
             "logical-op",
             "arith-conversion",
@@ -135,9 +135,9 @@ project "QR-Generator"
         enablewarnings {
             "array-bounds",
             "long-long",
-            "implicit-fallthrough", 
+            --"implicit-fallthrough", 
         }
-        disablewarnings {"cast-align", "sign-conversion"}
+        disablewarnings {"cast-align", "sign-conversion", "invalid-source-encoding"}
     filter {}
 
 
