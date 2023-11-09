@@ -186,153 +186,146 @@ void RenderWindow::ImGuiLoadFonts() const noexcept
     //};
 
 
-    static const ImWchar rangesDefault[] =
-    {
-        0x0020, 0x007F, // Basic Latin
-        0x0080, 0x00FF, // C1 Controls and Latin-1 Supplement
-        0x0100, 0x017F, // Latin Extended-A
-        0x0180, 0x024F, // Latin Extended-B
-        0x1E00, 0x1EFF, // Latin Extended Additional
-        0x1D00, 0x1D7F, // Phonetic Extensions
-        0x1F00, 0x1FFF, // Greek Extended
-        0x0400, 0x04FF, // Cyrillic
-        0x0500, 0x052F, // Cyrillic Supplement
-        0x0370, 0x03FF, // Greek/Coptic
-        0x2500, 0x257F, // Box Drawing
-        0x2300, 0x23FF, // Miscellaneous Technical
-        0x0300, 0x036F, // Combining Diacritical Marks
-        0x2200, 0x22FF, // Mathematical Operators
-        0x0250, 0x02AF, // IPA Extensions
-        0x2000, 0x206F, // General Punctuation
-        0x25A0, 0x25FF, // Geometric Shapes
-        0x02B0, 0x02FF, // Spacing Modifier Letters
-        0x20A0, 0x20CF, // Currency Symbols
-        0x2100, 0x214F, // Letterlike Symbols
-        0x2580, 0x259F, // Block Elements
-        0x20D0, 0x20FF, // Combining Diacritical Marks for Symbols
-        0x2070, 0x209F, // Superscripts and Subscripts
-        0x2190, 0x21FF, // Arrows
-        0xFE20, 0xFE2F, // Combining Half Marks
-        0x27C0, 0x27EF, // Miscellaneous Mathematical Symbols-A
-        0x2980, 0x29FF, // Miscellaneous Mathematical Symbols-B
-        0x2700, 0x27BF, // Dingbats
-
-        // -- Not defined --
-        0x2C60, 0x2C7F, // Latin Extended-C
-        0xa720, 0xa7ff, // Latin Extended-D
-        0xAB30, 0xAB6F, // Latin Extended-E
-        0x2DE0, 0x2DFF, // Cyrillic Extended-A
-        0xA640, 0xA69F, // Cyrillic Extended-B
-        0x1C80, 0x1C8F, // Cyrillic Extended-C
-        0xA700, 0xA71F, // Modifier Tone Letters
-        0x2E00, 0x2E7F, // Supplemental Punctuation
-        0x1D80, 0x1DBF, // Phonetic Extensions Supplement
-        0x0300, 0x036F, // Combining Diacritical Marks Extended
-        0x1DC0, 0x1DFF, // Combining Diacritical Marks Supplement
-        0
-    };
-
-
-    static const ImWchar rangesNotoJP[] =
-    {
-        0x1100, 0x11FF, // Hangul Jamo
-        0x2460, 0x24FF, // Enclosed Alphanumerics
-        0x2600, 0x26FF, // Miscellaneous Symbols
-        0x2B00, 0x2BFF, // Miscellaneous Symbols and Arrows
-        0x2E80, 0x2EFF, // CJK Radicals Supplement
-        0x2F00, 0x2FDF, // Kangxi Radicals
-        0x2FF0, 0x2FFF, // Ideographic Description Characters
-        0x3000, 0x303F, // CJK Symbols and Punctuation
-        0x3040, 0x309F, // Hiragana
-        0x30A0, 0x30FF, // Katakana
-        0x3100, 0x312F, // Bopomofo
-        0x3130, 0x318F, // Hangul Compatibility Jamo
-        0x31A0, 0x31BF, // Bopomofo Extended
-        0x31F0, 0x31FF, // Katakana Phonetic Extensions
-        0x3200, 0x32FF, // Enclosed CJK Letters and Months
-        0x3300, 0x33FF, // CJK Compatibility
-        0x3400, 0x4DBF, // CJK Unified Ideographs Extension A
-        0x4E00, 0x9FAF, // CJK Unified Ideographs
-        0xAC00, 0xD7AF, // Hangul Syllables
-        0xF900, 0xFAFF, // CJK Compatibility Ideographs
-        0xFB00, 0xFB4F, // Alphabetic Presentation Forms
-        0xFE30, 0xFE4F, // CJK Compatibility Forms
-        0xFE50, 0xFE6F, // Small Form Variants
-        0xFF00, 0xFFEF, // Halfwidth and Fullwidth Forms
-        0x3190, 0x319F, // Kanbun (Kunten)
-        
-        // -- Not defined --
-        0x31C0, 0x31EF, // CJK Strokes
-        0xFE10, 0xFE1F, // Vertical Forms
-        0xA960, 0xA97F, // Hangul Jamo Extended-A
-        0xD7B0, 0xD7FF, // Hangul Jamo Extended-B
-        0x2C60, 0x2C7F, // CJK Unified Ideographs Extension B
-        0
-    };
-
-
-    static const ImWchar rangesNotoHebrew[] =
-    {
-        0x0590, 0x05FF, // Hebrew
-        0
-    };
-
-
-    static const ImWchar rangesNotoArabic[] =
-    {
-        0x0600, 0x06FF, // Arabic
-        0xFB50, 0xFDFF, // Arabic Presentation Forms-A
-        0xFE70, 0xFEFF, // Arabic Presentation Forms-B
-
-        // -- Not defined --
-        0x0750, 0x077F, // Arabic Supplement
-        0x08A0, 0x08FF, // Arabic Extended-A
-        0
-    };
-
-
-    static const ImWchar rangesNotoSyriac[] =
-    {
-        0x0700, 0x074F, // Syriac
-        0
-    };
-
-
-    static const ImWchar rangesNotoTibetan[] =
-    {
-        0x0F00, 0x0FFF, // Tibetan
-        0
-    };
-
-
-    static const ImWchar rangesNotoThai[] =
-    {
-        0x0E00, 0x0E7F, // Thai
-        0
-    };
-
-
-    static const ImWchar rangesNotoMyanmar[] =
-    {
-        0x1000, 0x109F, // Myanmar
-        0xAA60, 0xAA7F, // Myanmar Extended-A
-        0xA9E0, 0xA9FF, // Myanmar Extended-B
-        0
-    };
-
-
-    static const ImWchar rangesNotoArmenian[] =
-    {
-        0x0530, 0x058F, // Armenian
-        0
-    };
-
-
-    static const ImWchar rangesAll[] =
-    {
-        0x0020, 0xFFFF,
-        0
-    };
+    //static const ImWchar rangesDefault[] =
+    //{
+    //    0x0020, 0x007F, // Basic Latin
+    //    0x0080, 0x00FF, // C1 Controls and Latin-1 Supplement
+    //    0x0100, 0x017F, // Latin Extended-A
+    //    0x0180, 0x024F, // Latin Extended-B
+    //    0x1E00, 0x1EFF, // Latin Extended Additional
+    //    0x1D00, 0x1D7F, // Phonetic Extensions
+    //    0x1F00, 0x1FFF, // Greek Extended
+    //    0x0400, 0x04FF, // Cyrillic
+    //    0x0500, 0x052F, // Cyrillic Supplement
+    //    0x0370, 0x03FF, // Greek/Coptic
+    //    0x2500, 0x257F, // Box Drawing
+    //    0x2300, 0x23FF, // Miscellaneous Technical
+    //    0x0300, 0x036F, // Combining Diacritical Marks
+    //    0x2200, 0x22FF, // Mathematical Operators
+    //    0x0250, 0x02AF, // IPA Extensions
+    //    0x2000, 0x206F, // General Punctuation
+    //    0x25A0, 0x25FF, // Geometric Shapes
+    //    0x02B0, 0x02FF, // Spacing Modifier Letters
+    //    0x20A0, 0x20CF, // Currency Symbols
+    //    0x2100, 0x214F, // Letterlike Symbols
+    //    0x2580, 0x259F, // Block Elements
+    //    0x20D0, 0x20FF, // Combining Diacritical Marks for Symbols
+    //    0x2070, 0x209F, // Superscripts and Subscripts
+    //    0x2190, 0x21FF, // Arrows
+    //    0xFE20, 0xFE2F, // Combining Half Marks
+    //    0x27C0, 0x27EF, // Miscellaneous Mathematical Symbols-A
+    //    0x2980, 0x29FF, // Miscellaneous Mathematical Symbols-B
+    //    0x2700, 0x27BF, // Dingbats
+    //
+    //    // -- Not defined --
+    //    0x2C60, 0x2C7F, // Latin Extended-C
+    //    0xa720, 0xa7ff, // Latin Extended-D
+    //    0xAB30, 0xAB6F, // Latin Extended-E
+    //    0x2DE0, 0x2DFF, // Cyrillic Extended-A
+    //    0xA640, 0xA69F, // Cyrillic Extended-B
+    //    0x1C80, 0x1C8F, // Cyrillic Extended-C
+    //    0xA700, 0xA71F, // Modifier Tone Letters
+    //    0x2E00, 0x2E7F, // Supplemental Punctuation
+    //    0x1D80, 0x1DBF, // Phonetic Extensions Supplement
+    //    0x0300, 0x036F, // Combining Diacritical Marks Extended
+    //    0x1DC0, 0x1DFF, // Combining Diacritical Marks Supplement
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoJP[] =
+    //{
+    //    0x1100, 0x11FF, // Hangul Jamo
+    //    0x2460, 0x24FF, // Enclosed Alphanumerics
+    //    0x2600, 0x26FF, // Miscellaneous Symbols
+    //    0x2B00, 0x2BFF, // Miscellaneous Symbols and Arrows
+    //    0x2E80, 0x2EFF, // CJK Radicals Supplement
+    //    0x2F00, 0x2FDF, // Kangxi Radicals
+    //    0x2FF0, 0x2FFF, // Ideographic Description Characters
+    //    0x3000, 0x303F, // CJK Symbols and Punctuation
+    //    0x3040, 0x309F, // Hiragana
+    //    0x30A0, 0x30FF, // Katakana
+    //    0x3100, 0x312F, // Bopomofo
+    //    0x3130, 0x318F, // Hangul Compatibility Jamo
+    //    0x31A0, 0x31BF, // Bopomofo Extended
+    //    0x31F0, 0x31FF, // Katakana Phonetic Extensions
+    //    0x3200, 0x32FF, // Enclosed CJK Letters and Months
+    //    0x3300, 0x33FF, // CJK Compatibility
+    //    0x3400, 0x4DBF, // CJK Unified Ideographs Extension A
+    //    0x4E00, 0x9FAF, // CJK Unified Ideographs
+    //    0xAC00, 0xD7AF, // Hangul Syllables
+    //    0xF900, 0xFAFF, // CJK Compatibility Ideographs
+    //    0xFB00, 0xFB4F, // Alphabetic Presentation Forms
+    //    0xFE30, 0xFE4F, // CJK Compatibility Forms
+    //    0xFE50, 0xFE6F, // Small Form Variants
+    //    0xFF00, 0xFFEF, // Halfwidth and Fullwidth Forms
+    //    0x3190, 0x319F, // Kanbun (Kunten)
+    //    
+    //    // -- Not defined --
+    //    0x31C0, 0x31EF, // CJK Strokes
+    //    0xFE10, 0xFE1F, // Vertical Forms
+    //    0xA960, 0xA97F, // Hangul Jamo Extended-A
+    //    0xD7B0, 0xD7FF, // Hangul Jamo Extended-B
+    //    0x2C60, 0x2C7F, // CJK Unified Ideographs Extension B
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoHebrew[] =
+    //{
+    //    0x0590, 0x05FF, // Hebrew
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoArabic[] =
+    //{
+    //    0x0600, 0x06FF, // Arabic
+    //    0xFB50, 0xFDFF, // Arabic Presentation Forms-A
+    //    0xFE70, 0xFEFF, // Arabic Presentation Forms-B
+    //
+    //    // -- Not defined --
+    //    0x0750, 0x077F, // Arabic Supplement
+    //    0x08A0, 0x08FF, // Arabic Extended-A
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoSyriac[] =
+    //{
+    //    0x0700, 0x074F, // Syriac
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoTibetan[] =
+    //{
+    //    0x0F00, 0x0FFF, // Tibetan
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoThai[] =
+    //{
+    //    0x0E00, 0x0E7F, // Thai
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoMyanmar[] =
+    //{
+    //    0x1000, 0x109F, // Myanmar
+    //    0xAA60, 0xAA7F, // Myanmar Extended-A
+    //    0xA9E0, 0xA9FF, // Myanmar Extended-B
+    //    0
+    //};
+    //
+    //
+    //static const ImWchar rangesNotoArmenian[] =
+    //{
+    //    0x0530, 0x058F, // Armenian
+    //    0
+    //};
 
 
     //static const ImWchar ranges[] =
@@ -379,6 +372,13 @@ void RenderWindow::ImGuiLoadFonts() const noexcept
     //    0xFFF0, 0xFFFF, // Specials
     //    0
     //};
+
+
+    static const ImWchar rangesAll[] =
+    {
+        0x0020, 0xFFFF,
+        0
+    };
 
 
     ImFontConfig config;
