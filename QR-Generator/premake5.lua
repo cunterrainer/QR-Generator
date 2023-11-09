@@ -57,6 +57,8 @@ project "QR-Generator"
             "gtk-3",
             "glib-2.0",
             "gobject-2.0",
+            "xcb",
+            "png",
             "X11"
         }
 

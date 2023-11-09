@@ -17,5 +17,5 @@ project "Clip"
         files "clip_osx.mm"
 
     filter "system:linux"
-        defines "HAVE_XCB_XLIB_H"
+        defines { "HAVE_XCB_XLIB_H", "HAVE_PNG_H" }
         files "clip_x11.cpp"
