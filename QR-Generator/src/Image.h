@@ -47,6 +47,12 @@ private:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_Pixel);
     }
+
+    inline void UpdateGpu() const
+    {
+        glBindTexture(GL_TEXTURE_2D, m_GpuImage);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, m_Pixel);
+    }
 public:
     inline ~Image()
     {
@@ -57,18 +63,23 @@ public:
     {
         assert(scale != 0 && "Image::Assign scale can't be less than 1");
 
+        bool resized = false;
         const GLsizei wh = (GLsizei)((qr.getSize() + border * 2) * scale);
-        GLubyte* tmp = new (std::nothrow) GLubyte[NumOfChannels * wh * wh];
-        if (tmp == nullptr)
+        if (wh != m_Width)
         {
-            Err("Failed to allocate memory for qr code image, requested: %u bytes (%u GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
-            return;
-        }
+            GLubyte* tmp = new (std::nothrow) GLubyte[NumOfChannels * wh * wh];
+            if (tmp == nullptr)
+            {
+                Err("Failed to allocate memory for qr code image, requested: %u bytes (%u GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
+                return;
+            }
 
-        Delete();
-        m_Width = wh;
-        m_Height = wh;
-        m_Pixel = tmp;
+            Delete();
+            m_Width = wh;
+            m_Height = wh;
+            m_Pixel = tmp;
+            resized = true;
+        }
 
 
         size_t idx = 0;
@@ -92,7 +103,10 @@ public:
                 idx += NumOfChannels * m_Width;
             }
         }
-        CreateGpuImage();
+        if (resized)
+            CreateGpuImage();
+        else
+            UpdateGpu();
     }
 
     inline std::vector<uint32_t>& Data32() const
