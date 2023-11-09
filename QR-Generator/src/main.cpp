@@ -101,24 +101,6 @@ int main()
                 rerender = false;
                 qrContentChanged = false;
             }
-            if (ImGui::Button("copy"))
-            {
-                clip::image_spec spec;
-                spec.width = img.Width();
-                spec.height = img.Height();
-                spec.bits_per_pixel = 8*4;
-                spec.bytes_per_row = spec.width * 4;
-                spec.red_mask = 0xff;
-                spec.green_mask = 0xff00;
-                spec.blue_mask = 0xff0000;
-                spec.alpha_mask = 0xff000000;
-                spec.red_shift = 0;
-                spec.green_shift = 8;
-                spec.blue_shift = 16;
-                spec.alpha_shift = 24;
-                clip::image cimg(img.Data32(), spec);
-                clip::set_image(cimg);
-            }
 
             newPos.x += ImGui::GetWindowWidth();
             if (yPosCursor == ImGui::GetStyle().WindowPadding.y)
@@ -137,7 +119,24 @@ int main()
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
             ImGui::SetCursorPos(ImVec2(xPos, yPos));
-            ImGui::Image((void*)(intptr_t)img.GetGpuImage(), { imgSize, imgSize });
+            if (ImGui::ImageButton((void*)(intptr_t)img.GetGpuImage(), { imgSize, imgSize }))
+            {
+                clip::image_spec spec;
+                spec.width = img.Width();
+                spec.height = img.Height();
+                spec.bits_per_pixel = 8 * 4;
+                spec.bytes_per_row = spec.width * 4;
+                spec.red_mask = 0xff;
+                spec.green_mask = 0xff00;
+                spec.blue_mask = 0xff0000;
+                spec.alpha_mask = 0xff000000;
+                spec.red_shift = 0;
+                spec.green_shift = 8;
+                spec.blue_shift = 16;
+                spec.alpha_shift = 24;
+                clip::image cimg(img.Data32().data(), spec);
+                clip::set_image(cimg);
+            }
             ImGui::End();
             ImGui::PopStyleVar();
         }

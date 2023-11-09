@@ -1,6 +1,7 @@
 #pragma once
 #include <new>
 #include <cmath>
+#include <vector>
 #include <string>
 #include <cstdint>
 #include <cstring>
@@ -13,7 +14,7 @@
 class Image
 {
 public:
-    static constexpr int NumOfChannels = 3;
+    static constexpr GLuint NumOfChannels = 3;
 private:
     GLubyte* m_Pixel = nullptr;
     GLsizei m_Width = 0;
@@ -57,7 +58,7 @@ public:
         assert(scale != 0 && "Image::Assign scale can't be less than 1");
 
         const GLsizei wh = (GLsizei)((qr.getSize() + border * 2) * scale);
-        GLubyte* tmp = new (std::nothrow) GLubyte[(unsigned int)(NumOfChannels * wh * wh)];
+        GLubyte* tmp = new (std::nothrow) GLubyte[NumOfChannels * wh * wh];
         if (tmp == nullptr)
         {
             Err("Failed to allocate memory for qr code image, requested: %u bytes (%u GB)\nVersuche es mit einer geringeren Skalierung und/oder Rand breite", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
@@ -94,15 +95,17 @@ public:
         CreateGpuImage();
     }
 
-    inline uint32_t* Data32()
+    inline std::vector<uint32_t>& Data32() const
     {
-        size_t a = 0;
-        uint32_t* tmp = new uint32_t[m_Width * m_Height];
-        for (size_t i = 0; i < (size_t)m_Width * m_Height * NumOfChannels;)
+        static std::vector<uint32_t> pixel;
+        pixel.clear();
+        pixel.reserve(m_Width * m_Height);
+
+        for (GLuint i = 0; i < m_Width * m_Height * NumOfChannels;)
         {
-            tmp[a++] = (0xFF << 24) | ((uint32_t)m_Pixel[i++] << 16) | ((uint32_t)m_Pixel[i++] << 8) | ((uint32_t)m_Pixel[i++] << 0);
+            pixel.push_back(((uint32_t)0xFF << 24) | ((uint32_t)m_Pixel[i++] << 16) | ((uint32_t)m_Pixel[i++] << 8) | ((uint32_t)m_Pixel[i++] << 0));
         }
-        return tmp;
+        return pixel;
     }
 
     inline GLuint GetGpuImage() const { return m_GpuImage; }
