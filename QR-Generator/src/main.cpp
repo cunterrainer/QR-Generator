@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿#include <new>
+#include <iostream>
+#include <stdexcept>
 #include <algorithm>
 
 #include "ImGui/imgui.h"
