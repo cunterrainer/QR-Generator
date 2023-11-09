@@ -18,6 +18,7 @@ project "QR-Generator"
         "../Dependencies/clip/include",
         "../Dependencies/GLFW/include",
         "../Dependencies/ImGui/include",
+        "../Dependencies/tinyfiledialogs/include",
         "../Dependencies/nativefiledialog/include"
     }
 
@@ -32,7 +33,8 @@ project "QR-Generator"
         "glfw",
         "nativefiledialog",
         "ImGui",
-        "Clip"
+        "Clip",
+        "tinyfiledialogs"
     }
 
     filter "system:windows"
@@ -43,7 +45,8 @@ project "QR-Generator"
             "shell32",
             "Shlwapi",
             "ole32",
-            "uuid"
+            "uuid",
+            "comdlg32"
         }
 
     filter "system:linux"
