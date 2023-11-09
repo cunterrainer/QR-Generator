@@ -1,3 +1,4 @@
+#ifndef ICON_H
 /*
 	This is the raw data representation of icon.png
 	Raw means that the data array still has to be loaded into memory before you can use it.
@@ -332,3 +333,4 @@ static inline constexpr unsigned char sg_RawIconData[1048576] =
 	0x13, 0x95, 0x67, 0x46, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82
 };
 static inline constexpr int sg_RawIconDataRelativeSize = sizeof(sg_RawIconData) / sizeof(unsigned char); // 1048576
+#endif // ICON_H
