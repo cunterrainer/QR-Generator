@@ -57,12 +57,20 @@ project "QR-Generator"
 
         links {
             "GL",
+            "gdk_pixbuf-2.0",
             "gtk-3",
+            "gdk-3",
             "glib-2.0",
             "gobject-2.0",
             "xcb",
             "png",
-            "X11"
+            "X11",
+            "pangocairo-1.0",
+            "pango-1.0",
+            "harfbuzz",
+            "cairo-gobject",
+            "cairo",
+            "z"
         }
 
     filter "system:macosx"
@@ -98,7 +106,7 @@ project "QR-Generator"
             "shadow",
             "sign-promo",
             --"switch-default",
-            "undef",
+            --"undef",
             "uninitialized",
             "unreachable-code",
             "unused",
