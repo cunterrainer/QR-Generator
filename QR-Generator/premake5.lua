@@ -86,7 +86,7 @@ project "QR-Generator"
 
     filter { "toolset:gcc* or toolset:clang*" }
         enablewarnings {
-            "cast-align",
+            --"cast-align",
             --"cast-qual",
             --"ctor-dtor-privacy",
             "disabled-optimization",
@@ -111,7 +111,7 @@ project "QR-Generator"
             "vla",
             "shift-overflow"
         }
-        disablewarnings { "unknown-warning-option", "format-security", "sequence-point" }
+        disablewarnings { "unknown-warning-option", "format-security", "sequence-point", "invalid-source-encoding" }
 
     filter "toolset:gcc*"
         warnings "Extra"
@@ -142,7 +142,7 @@ project "QR-Generator"
             "long-long",
             --"implicit-fallthrough", 
         }
-        disablewarnings {"cast-align", "sign-conversion", "invalid-source-encoding"}
+        disablewarnings {"cast-align", "sign-conversion" }
     filter {}
 
 
