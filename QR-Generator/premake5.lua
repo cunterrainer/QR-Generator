@@ -67,7 +67,7 @@ project "QR-Generator"
 
     filter "system:macosx"
         defines "GL_SILENCE_DEPRECATION"
-        linkoptions "-framework AppKit -framework iokit -framework OpenGl"
+        linkoptions "-framework AppKit -framework iokit -framework OpenGl -framework UniformTypeIdentifiers"
         disablewarnings { "sign-conversion" }
         files "src/**.m"
 
