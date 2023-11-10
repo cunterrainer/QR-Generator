@@ -57,11 +57,11 @@ int main()
 
             static int borderSize = 3;
             rerender = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
-            borderSize = std::clamp(borderSize, 0, 30);
+            borderSize = std::max(0, borderSize);
 
             static int scale = 30;
             rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
-            scale = std::clamp(scale, 1, 300);
+            scale = std::max(1, scale);
 
             ImGui::SameLine();
             ImGui::Text("(%ux%u)", img.Width(), img.Height());
