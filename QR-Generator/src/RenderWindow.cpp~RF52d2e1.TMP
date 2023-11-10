@@ -538,3 +538,28 @@ void RenderWindow::ImGuiSetTheme() const noexcept
     style->SelectableTextAlign = ImVec2(0.0f, 0.0f);
     style->DisplaySafeAreaPadding = ImVec2(8.0f, 8.0f);
 }
+
+
+void RenderWindow::Show() noexcept
+{
+    ImGuiStartFrame();
+    //const float width = Size().x;
+    //
+    //ImGui::SetNextWindowPos({ 0, 0 });
+    //ImGui::SetNextWindowSize({ width, SettingsHeight });
+    //ImGui::Begin("##Input", nullptr, IMGUI_WINDOW_FLAGS);
+    //static std::string s;
+    //s.shrink_to_fit();
+    //ImGui::InputTextWithHint("sa", "test", &s);
+    //ImGui::SameLine();
+    //static bool render = false;
+    //if (ImGui::Button("Hello"))
+    //{
+    //    render = true;
+    //}
+    //ImGui::End();
+
+    ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
+    ImGui::Begin("askl");
+    ImGui::End();
+}
