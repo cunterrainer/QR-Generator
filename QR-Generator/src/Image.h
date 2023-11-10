@@ -20,7 +20,6 @@ private:
     GLsizei m_Width = 0;
     GLsizei m_Height = 0;
     GLuint m_GpuImage = 0;
-    bool m_Created = false;
 private:
     inline void Delete()
     {
@@ -31,7 +30,6 @@ private:
         m_Height = 0;
         m_GpuImage = 0;
         m_Pixel = nullptr;
-        m_Created = false;
     }
 
     inline void CreateGpuImage()
@@ -126,5 +124,4 @@ public:
     inline int Height() const { return m_Height; }
     inline int Width() const { return m_Width; }
     inline unsigned char* Data() const { return m_Pixel; }
-    inline bool Created() const { return m_Created; }
 };
