@@ -142,7 +142,7 @@ int main()
                 catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
             }
             ImGui::SetCursorPosX(xPos);
-            if (ImGui::Button("Speichern", ImVec2(ImGui::GetItemRectSize().x, 28))) SaveImage(img);
+            if (ImGui::Button("Speichern", ImVec2(ImGui::GetItemRectSize().x, 28)) || ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyDown(ImGuiKey_S)) SaveImage(img);
             ImGui::End();
             ImGui::PopStyleVar();
         }
