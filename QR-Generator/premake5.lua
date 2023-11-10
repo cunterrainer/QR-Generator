@@ -50,11 +50,6 @@ project "QR-Generator"
         }
 
     filter "system:linux"
-        files {
-            "vendor/MsgBoxX11/**.cpp",
-            "vendor/MsgBoxX11/**.h"
-        }
-
         links {
             "GL",
             "gdk_pixbuf-2.0",
@@ -77,7 +72,6 @@ project "QR-Generator"
         defines "GL_SILENCE_DEPRECATION"
         linkoptions "-framework AppKit -framework iokit -framework OpenGl -framework UniformTypeIdentifiers"
         disablewarnings { "sign-conversion" }
-        files "src/**.m"
 
     filter { "toolset:gcc* or toolset:clang*", "platforms:x86", "system:windows" }
         linkoptions "res/iconx86.res"
