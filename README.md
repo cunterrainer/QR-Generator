@@ -3,7 +3,7 @@
 ### Windows
 Nothing, everything is provided.
 ### Linux
-For the message boxes you need kdialog or xdialog installed
+For the message boxes you need kdialog or xdialog installed  
 Following libraries have to be installed and accessible to the current user:
 - xorg (should contain:)
   - libx11
