@@ -18,7 +18,7 @@ inline std::filesystem::path SaveFileDialog()
     std::filesystem::path path;
     nfdchar_t* savePath = nullptr;
     const nfdfilteritem_t filterItems[5] = { { "PNG", "png" }, { "JPG", "jpg" }, { "JPEG", "jpeg" }, { "BMP", "bmp" }, { "TGA", "tga" } };
-    const nfdresult_t result = NFD_SaveDialog(&savePath, filterItems, 5, NULL, "Untitled.png");
+    const nfdresult_t result = NFD_SaveDialog(&savePath, filterItems, 5, NULL, "QRCode.png");
     
     if (result == NFD_OKAY)
     {
