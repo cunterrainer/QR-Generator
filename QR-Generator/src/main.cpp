@@ -162,6 +162,10 @@ int main()
             Application();
             keepRunning = false;
         }
+        catch (const std::bad_alloc&)
+        {
+            keepRunning = tinyfd_messageBox("Error", "Failed to allocate memory, do you want to restart the application?", "yesno", "error", 1);
+        }
         catch (const std::exception& e)
         {
             const std::string m = "Unknow exception, do you want to restart the application?\nWhat: " + std::string(e.what());
