@@ -1,5 +1,6 @@
 ﻿#include <new>
 #include <iostream>
+#include <exception>
 #include <stdexcept>
 #include <algorithm>
 
@@ -15,12 +16,14 @@
 #include "RenderWindow.h"
 
 
-int main()
+inline void Application()
 {
     Image img;
+    bool rerender = true;
+    bool qrContentChanged = true;
     RenderWindow window(1200, 760, "QR-Code-Generator");
     float yPosCursor = ImGui::GetStyle().WindowPadding.y;
-    
+
     while (window.IsOpen())
     {
         window.StartFrame();
@@ -36,12 +39,9 @@ int main()
 
         {
             ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
-            ImGui::SetNextWindowSize({ windowWidth/2, windowHeight });
+            ImGui::SetNextWindowSize({ windowWidth / 2, windowHeight });
             ImGui::SetNextWindowPos(newPos);
-
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
-            static bool rerender = true;
-            static bool qrContentChanged = true;
 
             static std::string s;
             ImGui::SetCursorPosY(yPosCursor);
@@ -117,7 +117,7 @@ int main()
             ImGui::SetNextWindowPos(newPos);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.f, 0.f });
             ImGui::Begin("QRCodeImage", nullptr, IMGUI_WINDOW_FLAGS);
-        
+
             const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) * 0.65f;
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
@@ -138,7 +138,7 @@ int main()
                 spec.blue_shift = 16;
                 spec.alpha_shift = 24;
                 try { clip::image cimg(img.Data32().data(), spec);  clip::set_image(cimg); }
-                catch (const std::bad_alloc& e)  { Log("Failed to create uint32 image vector (%s)", e.what()); }
+                catch (const std::bad_alloc& e) { Log("Failed to create uint32 image vector (%s)", e.what()); }
                 catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
             }
             ImGui::SetCursorPosX(xPos);
@@ -148,6 +148,29 @@ int main()
         }
 
         window.EndFrame();
+    }
+}
+
+
+int main()
+{
+    bool keepRunning = true;
+    while (keepRunning)
+    {
+        try
+        {
+            Application();
+            keepRunning = false;
+        }
+        catch (const std::exception& e)
+        {
+            const std::string m = "Unknow exception, do you want to restart the application?\nWhat: " + std::string(e.what());
+            keepRunning = tinyfd_messageBox("Error", m.c_str(), "yesno", "error", 1);
+        }
+        catch (...)
+        {
+            keepRunning = tinyfd_messageBox("Error", "Unknow exception, do you want to restart the application ?", "yesno", "error", 1);
+        }
     }
     return 0;
 }
