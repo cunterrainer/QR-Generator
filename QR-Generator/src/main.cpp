@@ -18,7 +18,7 @@
 int main()
 {
     Image img;
-    RenderWindow window(1130, 740, "QR-Code-Generator");
+    RenderWindow window(1200, 760, "QR-Code-Generator");
     float yPosCursor = ImGui::GetStyle().WindowPadding.y;
     
     while (window.IsOpen())
@@ -60,7 +60,7 @@ int main()
             borderSize = std::max(0, borderSize);
 
             static int scale = 30;
-            rerender = ImGui::InputInt("Skalierung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
+            rerender = ImGui::InputInt(u8"Auflösung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::max(1, scale);
 
             ImGui::SameLine();
