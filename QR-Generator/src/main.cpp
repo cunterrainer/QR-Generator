@@ -168,12 +168,12 @@ int main()
         }
         catch (const std::exception& e)
         {
-            const std::string m = "Unknow exception, do you want to restart the application?\nWhat: " + std::string(e.what());
+            const std::string m = "Unhandled exception occurred, do you want to restart the application?\nWhat: " + std::string(e.what());
             keepRunning = tinyfd_messageBox("Error", m.c_str(), "yesno", "error", 1);
         }
         catch (...)
         {
-            keepRunning = tinyfd_messageBox("Error", "Unknow exception, do you want to restart the application ?", "yesno", "error", 1);
+            keepRunning = tinyfd_messageBox("Error", "Unhandled exception occurred, do you want to restart the application ?", "yesno", "error", 1);
         }
     }
     return 0;
