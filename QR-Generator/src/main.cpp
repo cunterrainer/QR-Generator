@@ -72,12 +72,12 @@ inline void Application()
             static float colorSecondary[3] = { 1, 1, 1 };
             rerender = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || rerender;
 
-            static int minVersion = 1;
-            static int maxVersion = 40;
+            static int minVersion = qrcodegen::QrCode::MIN_VERSION;
+            static int maxVersion = qrcodegen::QrCode::MAX_VERSION;
             qrContentChanged = ImGui::InputInt("Mindest Version", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             qrContentChanged = ImGui::InputInt("Maximal Version", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
-            minVersion = std::clamp(minVersion, 1, std::max(maxVersion, 1));
-            maxVersion = std::clamp(maxVersion, minVersion, 40);
+            minVersion = std::clamp(minVersion, qrcodegen::QrCode::MIN_VERSION, std::max(maxVersion, qrcodegen::QrCode::MIN_VERSION));
+            maxVersion = std::clamp(maxVersion, minVersion, qrcodegen::QrCode::MAX_VERSION);
 
             static int maskPattern = -1;
             qrContentChanged = ImGui::InputInt("Maske", &maskPattern, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
