@@ -138,8 +138,8 @@ inline void Application()
                 spec.blue_shift = 16;
                 spec.alpha_shift = 24;
                 try { clip::image cimg(img.Data32().data(), spec);  clip::set_image(cimg); }
-                catch (const std::bad_alloc& e) { Log("Failed to create uint32 image vector (%s)", e.what()); }
-                catch (const std::runtime_error& e) { Log("Failed to copy image to clipboard (%s)", e.what()); }
+                catch (const std::bad_alloc& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
+                catch (const std::runtime_error& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
             }
             ImGui::SetCursorPosX(xPos);
             if (ImGui::Button("Speichern", ImVec2(ImGui::GetItemRectSize().x, 28)) || (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyDown(ImGuiKey_S))) SaveImage(img);
