@@ -52,7 +52,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glfwSetWindowPos(m_Window, (mode->width - width) / 2, (mode->height - height) / 2);
 
-    #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons, and are already styled according to the platforms theme
+    #if defined(SYSTEM_WINDOWS) || defined(SYSTEM_LINUX) // macos usually doesn't have icons
         GLFWimage icon_s;
         icon_s.pixels = stbi_load_from_memory(sg_RawIcon_whiteData, sg_RawIcon_whiteDataRelativeSize, &icon_s.width, &icon_s.height, NULL, sg_Icon_whiteChannels);
         if (icon_s.pixels != NULL)
@@ -60,7 +60,9 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
             glfwSetWindowIcon(m_Window, 1, &icon_s);
             stbi_image_free(icon_s.pixels);
         }
+    #endif
 
+    #ifdef SYSTEM_WINDOWS
         // set dark mode (Title bar etc.)
         const HWND hwnd = glfwGetWin32Window(m_Window);
         constexpr DWORD dwmwaUseImmersiveDarkMode = 20;
