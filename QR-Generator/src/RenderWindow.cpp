@@ -62,7 +62,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
         }
     #endif
 
-    #ifdef SYSTEM_WINDOWS
+    #ifdef SYSTEM_WINDOWS // linux and macos are usually already styled according to the system settings
         // set dark mode (Title bar etc.)
         const HWND hwnd = glfwGetWin32Window(m_Window);
         constexpr DWORD dwmwaUseImmersiveDarkMode = 20;
