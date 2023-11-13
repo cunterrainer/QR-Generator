@@ -54,7 +54,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
 
     #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons, and are already styled according to the platforms theme
         GLFWimage icon_s;
-        icon_s.pixels = stbi_load_from_memory(sg_RawIconData, sg_RawIconDataRelativeSize, &icon_s.width, &icon_s.height, NULL, sg_IconChannels);
+        icon_s.pixels = stbi_load_from_memory(sg_RawIcon_whiteData, sg_RawIcon_whiteDataRelativeSize, &icon_s.width, &icon_s.height, NULL, sg_Icon_whiteChannels);
         if (icon_s.pixels != NULL)
         {
             glfwSetWindowIcon(m_Window, 1, &icon_s);
