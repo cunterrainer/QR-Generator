@@ -1,15 +1,23 @@
-﻿#include "Log.h"
-
-#include "GLFW/glfw3.h"
+﻿#include "GLFW/glfw3.h"
 #include "stb/stb_image.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
 #include "ImGui/imgui_stdlib.h"
 
+#include "Log.h"
 #include "Core.h"
 #include "Icon.h"
 #include "Noto.h"
 #include "RenderWindow.h"
+
+#ifdef SYSTEM_WINDOWS
+    #undef APIENTRY
+    #include <dwmapi.h>
+    #include <Windows.h>
+    #define GLFW_EXPOSE_NATIVE_WIN32
+    #define GLFW_NATIVE_INCLUDE_NONE
+    #include "GLFW/glfw3native.h"
+#endif
 
 bool g_WindowResized = false;
 
@@ -44,7 +52,7 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glfwSetWindowPos(m_Window, (mode->width - width) / 2, (mode->height - height) / 2);
 
-    #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons
+    #ifdef SYSTEM_WINDOWS // macos and linux usually don't have icons, and are already styled according to the platforms theme
         GLFWimage icon_s;
         icon_s.pixels = stbi_load_from_memory(sg_RawIconData, sg_RawIconDataRelativeSize, &icon_s.width, &icon_s.height, NULL, sg_IconChannels);
         if (icon_s.pixels != NULL)
@@ -52,6 +60,24 @@ RenderWindow::RenderWindow(int width, int height, const char* title, GLFWmonitor
             glfwSetWindowIcon(m_Window, 1, &icon_s);
             stbi_image_free(icon_s.pixels);
         }
+
+        // set dark mode (Title bar etc.)
+        const HWND hwnd = glfwGetWin32Window(m_Window);
+        constexpr DWORD dwmwaUseImmersiveDarkMode = 20;
+        constexpr DWORD dwmwaUseImmersiveDarkModeBefore20H1 = 19;
+        const wchar_t* const darkModeStringName = L"DarkMode_Explorer";
+
+        if (SetWindowTheme(hwnd, darkModeStringName, nullptr) != S_OK)
+            return;
+
+        constexpr BOOL isDarkMode = true;
+        if (DwmSetWindowAttribute(hwnd, dwmwaUseImmersiveDarkMode, &isDarkMode, sizeof(isDarkMode)) != S_OK)
+        {
+            DwmSetWindowAttribute(hwnd, dwmwaUseImmersiveDarkModeBefore20H1, &isDarkMode, sizeof(isDarkMode));
+        }
+        // a neat workaround to get windows to redraw the title bar without anyone actually being able to notice any change in the window
+        glfwSetWindowOpacity(m_Window, 0.99f);
+        glfwSetWindowOpacity(m_Window, 1.f);
     #endif
 
     glfwMakeContextCurrent(m_Window);

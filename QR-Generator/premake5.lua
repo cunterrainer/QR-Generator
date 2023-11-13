@@ -46,7 +46,9 @@ project "QR-Generator"
             "Shlwapi",
             "ole32",
             "uuid",
-            "comdlg32"
+            "comdlg32",
+            "UxTheme",
+            "Dwmapi"
         }
 
     filter "system:linux"
