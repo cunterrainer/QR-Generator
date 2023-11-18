@@ -141,6 +141,7 @@ inline void Application()
                 catch (const std::bad_alloc& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
                 catch (const std::runtime_error& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
             }
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip("Klicken um den QR code zu kopieren");
             ImGui::SetCursorPosX(xPos);
             if (ImGui::Button("Speichern", ImVec2(ImGui::GetItemRectSize().x, 28)) || (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && ImGui::IsKeyDown(ImGuiKey_S))) SaveImage(img);
             ImGui::End();
