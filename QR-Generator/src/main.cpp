@@ -91,25 +91,34 @@ inline void Application()
             ImGui::SetNextWindowPos(newPos);
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
 
-            // int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);
-            auto cb = [](ImGuiInputTextCallbackData* data)
+            static const auto rightBoundTextCallback = [](ImGuiInputTextCallbackData* data)
             {
-                if (data->BufTextLen == 0 || Local::IsFromLeftToRight()) return 0;
+                static int prevBufLen = 0;
+                static int prevCursorPos = 0;
+                if (prevBufLen != data->BufTextLen)
+                {
+                    data->CursorPos = prevCursorPos;
+                }
+                prevCursorPos = data->CursorPos;
+                prevBufLen = data->BufTextLen;
 
-                data->CursorPos = 0;
+                static std::string prevContent(data->Buf, data->BufTextLen);
+
                 if (ImGui::IsKeyPressed(ImGuiKey_Backspace))
                 {
-                    const int charSize = Utf8CharSize(data->Buf);
-                    std::memmove(data->Buf, data->Buf + charSize, data->BufSize /*Includes zero-terminator storage, don't modify!*/ - charSize);
-                    data->BufTextLen -= charSize;
+                    const int charSize = Utf8CharSize(prevContent.data());
+                    prevContent.erase(data->CursorPos, charSize);
+                    std::memcpy(data->Buf, prevContent.data(), data->BufSize - charSize);
+                    data->BufTextLen = (int)prevContent.size();
                     data->BufDirty = true;
                 }
+                prevContent = std::string(data->Buf, data->BufTextLen);
                 return 0;
             };
 
             static std::string s;
             ImGui::SetCursorPosY(yPosCursor);
-            qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", Local::Get(Local::Item::QRInputField), &s, ImGuiInputTextFlags_CallbackAlways, cb) || qrContentChanged;
+            qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", Local::Get(Local::Item::QRInputField), &s, Local::IsFromLeftToRight() ? 0 : ImGuiInputTextFlags_CallbackAlways, rightBoundTextCallback) || qrContentChanged;
 
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo(Local::Get(Local::Item::QRErrorCorrection), &eccLevel, Local::Get(Local::Item::QRErrorCorrectionCombo)) || qrContentChanged;
