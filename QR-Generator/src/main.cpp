@@ -100,9 +100,9 @@ inline void Application()
             {
                 if (ImGui::BeginMenu(Local::Get(Local::Item::LanguageSelectionMenu)))
                 {
-                    if (ImGui::MenuItem("Deutsch", nullptr, Local::GetLanguage() == Local::Language::German)) Local::ChangeLanguage(Local::Language::German);
-                    if (ImGui::MenuItem("English", nullptr, Local::GetLanguage() == Local::Language::English)) Local::ChangeLanguage(Local::Language::English);
-                    if (ImGui::MenuItem(u8"תירבע", nullptr, Local::GetLanguage() == Local::Language::Hebrew)) Local::ChangeLanguage(Local::Language::Hebrew);
+                    if (ImGui::MenuItem("Deutsch", nullptr, Local::GetLanguage() == Local::Language::German)) Local::SetLanguage(Local::Language::German);
+                    if (ImGui::MenuItem("English", nullptr, Local::GetLanguage() == Local::Language::English)) Local::SetLanguage(Local::Language::English);
+                    if (ImGui::MenuItem(u8"תירבע", nullptr, Local::GetLanguage() == Local::Language::Hebrew)) Local::SetLanguage(Local::Language::Hebrew);
                     ImGui::EndMenu();
                 }
                 ImGui::EndMenuBar();

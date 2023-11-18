@@ -43,7 +43,7 @@ private:
     static inline Language m_SelectedLanguage;
     static inline std::unordered_map<Item, const char*> m_LangMap;
 public:
-    static inline void ChangeLanguage(Language lang) noexcept
+    static inline void SetLanguage(Language lang) noexcept
     {
         switch (lang)
         {
