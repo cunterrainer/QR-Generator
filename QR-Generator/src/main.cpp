@@ -16,7 +16,7 @@
 #include "Image.h"
 #include "ImageWriter.h"
 #include "RenderWindow.h"
-#include "Localisation.h"
+#include "Localization.h"
 
 
 inline int Utf8CharSize(const char* utf8Char)
