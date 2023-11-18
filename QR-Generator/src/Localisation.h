@@ -27,7 +27,16 @@ public:
         QRMaskPattern,
         QRMaskPatternTooltip,
         QRSaveButton,
-        QRButtonTooltip
+        QRButtonTooltip,
+
+        ErrImageOutOfMemory,
+        ErrFailedToGenerateQRCode,
+        ErrImageWriterFailedToOpenNFD,
+        ErrImageWriterFailedToSaveImage,
+        ErrFailedToCopyImageToClipboard,
+        ErrApplicationBadAllocException,
+        ErrApplicationUnhandledException,
+        ErrApplicationUnhandledStdException,
     };
 private:
     static inline Language m_SelectedLanguage;
@@ -54,6 +63,15 @@ public:
             m_LangMap[Item::QRMaskPatternTooltip]             = "(-1 automatisch, 0 bis 7 manuell)";
             m_LangMap[Item::QRSaveButton]                     = "Speichern";
             m_LangMap[Item::QRButtonTooltip]                  = "Klicken um den QR-Code zu kopieren";
+
+            m_LangMap[Item::ErrImageOutOfMemory]                 = "Es konnte kein Speicher für den QR-Code zugewiesen werden, angefordert: %u Bytes (%4.2f GB)\nVersuche es mit einer geringeren Skalierung, Rand breite, verringere die mindest Version oder verkürze den Inhalt";
+            m_LangMap[Item::ErrFailedToGenerateQRCode]           = "%s\nQR-Code konnte nicht generiert werden da er zu groß ist.\nZum Beheben:\n- Verringere das Fehlerkorrekturlevel\n- Erhöhe das Maximale Level\n- Kürze die Texteingabe";
+            m_LangMap[Item::ErrImageWriterFailedToOpenNFD]       = "Dateidialog konnte nicht geöffnet werden:\n%s";
+            m_LangMap[Item::ErrImageWriterFailedToSaveImage]     = "Bild konnte nicht gespeichert werden.\nPfad: %s\nBreite: %d\nHöhe: %d";
+            m_LangMap[Item::ErrFailedToCopyImageToClipboard]     = "Das Bild konnte nicht in die Zwischenablage kopiert werden (%s)";
+            m_LangMap[Item::ErrApplicationBadAllocException]     = "Speicher konnte nicht zugewiesen werden. Möchten Sie die Anwendung neu starten?";
+            m_LangMap[Item::ErrApplicationUnhandledException]    = "Es ist eine nicht behandelte Ausnahme aufgetreten. Möchten Sie die Anwendung neu starten?";
+            m_LangMap[Item::ErrApplicationUnhandledStdException] = "Es ist eine nicht behandelte Ausnahme aufgetreten. Möchten Sie die Anwendung neu starten?\nWas: ";
             break;
         case Language::English:
             m_LangMap[Item::LanguageSelectionMenu]            = "Language";
@@ -72,6 +90,15 @@ public:
             m_LangMap[Item::QRMaskPatternTooltip]             = "(-1 automatic, 0 to 7 manual)";
             m_LangMap[Item::QRSaveButton]                     = "Save";
             m_LangMap[Item::QRButtonTooltip]                  = "Click to copy the QR code";
+
+            m_LangMap[Item::ErrImageOutOfMemory]                 = "Failed to allocate memory for qr code image, requested: %u bytes (%4.2f GB)\nTry a smaller scale, border width, reduce the minimum version or shorten the content";
+            m_LangMap[Item::ErrFailedToGenerateQRCode]           = "%s\nQR code could not be generated because it is too large.\nTo fix:\n- Reduce the error correction level\n- Increase the maximum level\n- Shorten the text input";
+            m_LangMap[Item::ErrImageWriterFailedToOpenNFD]       = "Failed to open file dialog:\n%s";
+            m_LangMap[Item::ErrImageWriterFailedToSaveImage]     = "Failed to save image.\nPath: %s\nWidth: %d\nHeight: %d";
+            m_LangMap[Item::ErrFailedToCopyImageToClipboard]     = "Failed to copy image to clipboard (%s)";
+            m_LangMap[Item::ErrApplicationBadAllocException]     = "Failed to allocate memory, do you want to restart the application?";
+            m_LangMap[Item::ErrApplicationUnhandledException]    = "Unhandled exception occurred, do you want to restart the application?";
+            m_LangMap[Item::ErrApplicationUnhandledStdException] = "Unhandled exception occurred, do you want to restart the application?\nWhat: ";
             break;
         }
         m_SelectedLanguage = lang;

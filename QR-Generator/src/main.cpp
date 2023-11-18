@@ -120,7 +120,7 @@ inline void Application()
                     }
                     catch (const std::length_error& e)
                     {
-                        Err("%s\nQR-Code konnte nicht generiert werden da er zu groß ist.\nZum Beheben:\n- Verringere das Fehlerkorrekturlevel\n- Erhöhe das Maximale Level\n- Kürze die Texteingabe", e.what());
+                        Err(Local::Get(Local::Item::ErrFailedToGenerateQRCode), e.what());
                     }
                 }
                 img.Assign(qr, borderSize, scale, colorPrimary, colorSecondary);
@@ -161,8 +161,8 @@ inline void Application()
                 spec.blue_shift = 16;
                 spec.alpha_shift = 24;
                 try { clip::image cimg(img.Data32().data(), spec);  clip::set_image(cimg); }
-                catch (const std::bad_alloc& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
-                catch (const std::runtime_error& e) { Err("Failed to copy image to clipboard (%s)", e.what()); }
+                catch (const std::bad_alloc& e) { Err(Local::Get(Local::Item::ErrFailedToCopyImageToClipboard), e.what()); }
+                catch (const std::runtime_error& e) { Err(Local::Get(Local::Item::ErrFailedToCopyImageToClipboard), e.what()); }
             }
             if (ImGui::IsItemHovered()) ImGui::SetTooltip(Local::Get(Local::Item::QRButtonTooltip));
             ImGui::SetCursorPosX(xPos);
@@ -188,16 +188,16 @@ int main()
         }
         catch (const std::bad_alloc&)
         {
-            keepRunning = tinyfd_messageBox("Error", "Failed to allocate memory, do you want to restart the application?", "yesno", "error", 1);
+            keepRunning = tinyfd_messageBox("Error", Local::Get(Local::Item::ErrApplicationBadAllocException), "yesno", "error", 1);
         }
         catch (const std::exception& e)
         {
-            const std::string m = "Unhandled exception occurred, do you want to restart the application?\nWhat: " + std::string(e.what());
+            const std::string m = Local::Get(Local::Item::ErrApplicationUnhandledStdException) + std::string(e.what());
             keepRunning = tinyfd_messageBox("Error", m.c_str(), "yesno", "error", 1);
         }
         catch (...)
         {
-            keepRunning = tinyfd_messageBox("Error", "Unhandled exception occurred, do you want to restart the application ?", "yesno", "error", 1);
+            keepRunning = tinyfd_messageBox("Error", Local::Get(Local::Item::ErrApplicationUnhandledException), "yesno", "error", 1);
         }
     }
     return 0;
