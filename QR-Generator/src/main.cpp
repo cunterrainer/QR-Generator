@@ -46,7 +46,7 @@ void utf8rev(char* str)
 }
 
 
-int Utf8CharSize(const char* utf8Char)
+inline int Utf8CharSize(const char* utf8Char)
 {
     // The most significant bits of the first byte determine the number of bytes in the character
     if ((utf8Char[0] & 0b10000000) == 0) {
