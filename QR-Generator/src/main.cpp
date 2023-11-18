@@ -39,52 +39,73 @@ inline void Application()
 
         {
             ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
+            ImGui::SetNextWindowSize(ImVec2(windowWidth, -1));
+            ImGui::SetNextWindowPos(newPos);
+            ImGui::Begin("##MenuBarWindow", nullptr, ImGuiWindowFlags_MenuBar | IMGUI_WINDOW_FLAGS);
+
+            if (ImGui::BeginMenuBar())
+            {
+                if (ImGui::BeginMenu("Sprache"))
+                {
+                    ImGui::MenuItem("Deutsch", nullptr, true);
+                    ImGui::MenuItem("Englisch");
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMenuBar();
+            }
+
+            newPos.y += ImGui::GetWindowHeight();
+            ImGui::End();
+        }
+
+        {
+            ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
             ImGui::SetNextWindowSize({ windowWidth / 2, windowHeight });
             ImGui::SetNextWindowPos(newPos);
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
-
+        
             static std::string s;
             ImGui::SetCursorPosY(yPosCursor);
             qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", (const char*)u8"Text einfügen", &s) || qrContentChanged;
-
+        
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo("Fehlerkorrektur", &eccLevel, "Niedrig\0Mittel\0Quartil\0Hoch\0") || qrContentChanged;
-
+        
             static bool boostEccl = true;
             qrContentChanged = ImGui::Checkbox((const char*)u8"Erhöhe das Fehlerkorrekturlevel automatisch", &boostEccl) || qrContentChanged;
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip((const char*)u8"Es wird automatisch die kleinstmögliche QR-Code-Version innerhalb des angegebenen Bereichs verwendet.\nWenn aktiviert wird das Fehlerkorrekturlevel erhöht sofern dies ohne Erhöhung der Version möglich ist");
-
+        
             static int borderSize = 3;
             rerender = ImGui::InputInt("Rand", &borderSize, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             borderSize = std::max(0, borderSize);
-
+        
             static int scale = 30;
             rerender = ImGui::InputInt(u8"Auflösung", &scale, 1, 10, ImGuiInputTextFlags_CharsDecimal) || rerender;
             scale = std::max(1, scale);
-
+        
             ImGui::SameLine();
             ImGui::Text("(%ux%u)", img.Width(), img.Height());
-
+        
             static float colorPrimary[3] = { 0 };
             rerender = ImGui::ColorEdit3((const char*)u8"Primärfarbe", colorPrimary, ImGuiColorEditFlags_DisplayHex) || rerender;
-
+        
             static float colorSecondary[3] = { 1, 1, 1 };
             rerender = ImGui::ColorEdit3((const char*)u8"Sekundärfarbe", colorSecondary, ImGuiColorEditFlags_DisplayHex) || rerender;
-
+        
             static int minVersion = qrcodegen::QrCode::MIN_VERSION;
             static int maxVersion = qrcodegen::QrCode::MAX_VERSION;
             qrContentChanged = ImGui::InputInt("Mindest Version", &minVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             qrContentChanged = ImGui::InputInt("Maximal Version", &maxVersion, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             minVersion = std::clamp(minVersion, qrcodegen::QrCode::MIN_VERSION, std::max(maxVersion, qrcodegen::QrCode::MIN_VERSION));
             maxVersion = std::clamp(maxVersion, minVersion, qrcodegen::QrCode::MAX_VERSION);
-
+        
             static int maskPattern = -1;
             qrContentChanged = ImGui::InputInt("Maske", &maskPattern, 1, 10, ImGuiInputTextFlags_CharsDecimal) || qrContentChanged;
             maskPattern = std::clamp(maskPattern, -1, 7);
             if (ImGui::IsItemHovered())
                 ImGui::SetTooltip("(-1 automatisch, 0 bis 7 manuell)");
-
+        
             if (rerender || qrContentChanged)
             {
                 static qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(s.c_str(), (qrcodegen::QrCode::Ecc)eccLevel);
@@ -104,20 +125,20 @@ inline void Application()
                 rerender = false;
                 qrContentChanged = false;
             }
-
+        
             newPos.x += ImGui::GetWindowWidth();
             if (yPosCursor == ImGui::GetStyle().WindowPadding.y)
                 yPosCursor = (windowHeight / 2 - ImGui::GetCursorPosY() / 2);
             ImGui::End();
         }
-
+        
         {
             ImGui::SetNextWindowViewport(ImGui::GetMainViewport()->ID);
             ImGui::SetNextWindowSize({ windowWidth / 2, windowHeight });
             ImGui::SetNextWindowPos(newPos);
             ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.f, 0.f });
             ImGui::Begin("QRCodeImage", nullptr, IMGUI_WINDOW_FLAGS);
-
+        
             const float imgSize = std::min(ImGui::GetWindowHeight(), ImGui::GetWindowWidth()) * 0.65f;
             const float xPos = (ImGui::GetWindowWidth() - imgSize) / 2.f;
             const float yPos = (ImGui::GetWindowHeight() - imgSize) / 2.f;
