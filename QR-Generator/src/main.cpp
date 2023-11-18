@@ -20,6 +20,32 @@
 
 
 
+void utf8rev(char* str)
+{
+    /* this assumes that str is valid UTF-8 */
+    char* scanl, * scanr, * scanr2, c;
+
+    /* first reverse the string */
+    for (scanl = str, scanr = str + strlen(str); scanl < scanr;)
+        c = *scanl, * scanl++ = *--scanr, *scanr = c;
+
+    /* then scan all bytes and reverse each multibyte character */
+    for (scanl = scanr = str; (c = *scanr++);) {
+        if ((c & 0x80) == 0) // ASCII char
+            scanl = scanr;
+        else if ((c & 0xc0) == 0xc0) { // start of multibyte
+            scanr2 = scanr;
+            switch (scanr - scanl) {
+            case 4: c = *scanl, *scanl++ = *--scanr, *scanr = c; // fallthrough
+            case 3: // fallthrough
+            case 2: c = *scanl, *scanl++ = *--scanr, *scanr = c;
+            }
+            scanr = scanl = scanr2;
+        }
+    }
+}
+
+
 int Utf8CharSize(const char* utf8Char)
 {
     // The most significant bits of the first byte determine the number of bytes in the character
@@ -76,6 +102,7 @@ inline void Application()
                 {
                     if (ImGui::MenuItem("Deutsch", nullptr, Local::GetLanguage() == Local::Language::German)) Local::ChangeLanguage(Local::Language::German);
                     if (ImGui::MenuItem("English", nullptr, Local::GetLanguage() == Local::Language::English)) Local::ChangeLanguage(Local::Language::English);
+                    if (ImGui::MenuItem(u8"תירבע", nullptr, Local::GetLanguage() == Local::Language::Hebrew)) Local::ChangeLanguage(Local::Language::Hebrew);
                     ImGui::EndMenu();
                 }
                 ImGui::EndMenuBar();
@@ -94,7 +121,7 @@ inline void Application()
             // int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);
             auto cb = [](ImGuiInputTextCallbackData* data)
             {
-                if (data->BufTextLen == 0) return 0;
+                if (data->BufTextLen == 0 || Local::IsFromLeftToRight()) return 0;
 
                 data->CursorPos = 0;
                 if (ImGui::IsKeyPressed(ImGuiKey_Backspace))

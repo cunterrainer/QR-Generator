@@ -6,7 +6,7 @@ class Local
 public:
     enum class Language
     {
-        German, English
+        German, English, Hebrew
     };
 
     enum class Item
@@ -39,6 +39,7 @@ public:
         ErrApplicationUnhandledStdException,
     };
 private:
+    static inline bool m_FromLeftToRight; // e.g. true for english, german; false for hebrew, arabic
     static inline Language m_SelectedLanguage;
     static inline std::unordered_map<Item, const char*> m_LangMap;
 public:
@@ -47,6 +48,7 @@ public:
         switch (lang)
         {
         case Language::German:
+            m_FromLeftToRight = true;
             m_LangMap[Item::LanguageSelectionMenu]            = "Sprache";
             m_LangMap[Item::QRInputField]                     = u8"Text einfügen";
             m_LangMap[Item::QRErrorCorrection]                = "Fehlerkorrektur";
@@ -74,6 +76,7 @@ public:
             m_LangMap[Item::ErrApplicationUnhandledStdException] = "Es ist eine nicht behandelte Ausnahme aufgetreten. Möchten Sie die Anwendung neu starten?\nWas: ";
             break;
         case Language::English:
+            m_FromLeftToRight = true;
             m_LangMap[Item::LanguageSelectionMenu]            = "Language";
             m_LangMap[Item::QRInputField]                     = "Insert text";
             m_LangMap[Item::QRErrorCorrection]                = "Error correction";
@@ -100,6 +103,9 @@ public:
             m_LangMap[Item::ErrApplicationUnhandledException]    = "Unhandled exception occurred, do you want to restart the application?";
             m_LangMap[Item::ErrApplicationUnhandledStdException] = "Unhandled exception occurred, do you want to restart the application?\nWhat: ";
             break;
+        case Language::Hebrew:
+            m_FromLeftToRight = false;
+            break;
         }
         m_SelectedLanguage = lang;
     }
@@ -112,5 +118,10 @@ public:
     static inline Language GetLanguage() noexcept
     {
         return m_SelectedLanguage;
+    }
+
+    static inline bool IsFromLeftToRight() noexcept
+    {
+        return m_FromLeftToRight;
     }
 };
