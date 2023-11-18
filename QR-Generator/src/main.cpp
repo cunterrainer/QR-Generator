@@ -46,7 +46,7 @@ inline void Application()
     Image img;
     bool rerender = true;
     bool qrContentChanged = true;
-    Local::SetLanguage(Local::Language::German);
+    Local::SetLanguage(Local::Language::English);
     RenderWindow window(1200, 760, "QR-Code-Generator");
     float yPosCursor = ImGui::GetStyle().WindowPadding.y;
 

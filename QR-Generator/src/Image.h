@@ -10,7 +10,7 @@
 #include "qrcodegen/cpp/qrcodegen.hpp"
 
 #include "Log.h"
-#include "Localisation.h"
+#include "Localization.h"
 
 class Image
 {
