@@ -1,4 +1,6 @@
 ﻿#include <new>
+#include <string>
+#include <cstring>
 #include <iostream>
 #include <exception>
 #include <stdexcept>
@@ -15,6 +17,29 @@
 #include "ImageWriter.h"
 #include "RenderWindow.h"
 #include "Localisation.h"
+
+
+
+int Utf8CharSize(const char* utf8Char)
+{
+    // The most significant bits of the first byte determine the number of bytes in the character
+    if ((utf8Char[0] & 0b10000000) == 0) {
+        return 1; // Single-byte character
+    }
+    else if ((utf8Char[0] & 0b11100000) == 0b11000000) {
+        return 2; // Two-byte character
+    }
+    else if ((utf8Char[0] & 0b11110000) == 0b11100000) {
+        return 3; // Three-byte character
+    }
+    else if ((utf8Char[0] & 0b11111000) == 0b11110000) {
+        return 4; // Four-byte character
+    }
+    else {
+        // Invalid UTF-8 encoding
+        return 0;
+    }
+}
 
 
 inline void Application()
@@ -65,11 +90,27 @@ inline void Application()
             ImGui::SetNextWindowSize({ windowWidth / 2, windowHeight });
             ImGui::SetNextWindowPos(newPos);
             ImGui::Begin("InputWindow", nullptr, IMGUI_WINDOW_FLAGS);
-        
+
+            // int     (*ImGuiInputTextCallback)(ImGuiInputTextCallbackData* data);
+            auto cb = [](ImGuiInputTextCallbackData* data)
+            {
+                if (data->BufTextLen == 0) return 0;
+
+                data->CursorPos = 0;
+                if (ImGui::IsKeyPressed(ImGuiKey_Backspace))
+                {
+                    const int charSize = Utf8CharSize(data->Buf);
+                    std::memmove(data->Buf, data->Buf + charSize, data->BufSize /*Includes zero-terminator storage, don't modify!*/ - charSize);
+                    data->BufTextLen -= charSize;
+                    data->BufDirty = true;
+                }
+                return 0;
+            };
+
             static std::string s;
             ImGui::SetCursorPosY(yPosCursor);
-            qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", Local::Get(Local::Item::QRInputField), &s) || qrContentChanged;
-        
+            qrContentChanged = ImGui::InputTextWithHint("##ContentInputText", Local::Get(Local::Item::QRInputField), &s, ImGuiInputTextFlags_CallbackAlways, cb) || qrContentChanged;
+
             static int eccLevel = 0;
             qrContentChanged = ImGui::Combo(Local::Get(Local::Item::QRErrorCorrection), &eccLevel, Local::Get(Local::Item::QRErrorCorrectionCombo)) || qrContentChanged;
         
