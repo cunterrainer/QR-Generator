@@ -114,8 +114,9 @@ inline void Application()
                 prevBufLen = data->BufTextLen;
 
                 static std::string prevContent(data->Buf, data->BufTextLen);
+                static int prevSelectionRange = data->SelectionEnd - data->SelectionStart;
 
-                if (ImGui::IsKeyPressed(ImGuiKey_Backspace))
+                if (ImGui::IsKeyPressed(ImGuiKey_Backspace) && prevSelectionRange == 0)
                 {
                     const int charSize = Utf8CharSize(prevContent.data());
                     prevContent.erase(data->CursorPos, charSize);
@@ -124,7 +125,7 @@ inline void Application()
                     data->BufDirty = true;
                 }
 
-                if (ImGui::IsKeyPressed(ImGuiKey_Delete))
+                if (ImGui::IsKeyPressed(ImGuiKey_Delete) && prevSelectionRange == 0)
                 {
                     int charSize = 0;
                     size_t prevChar = 0;
@@ -139,6 +140,7 @@ inline void Application()
                     data->BufDirty = true;
                     data->CursorPos = (int)prevChar;
                 }
+                prevSelectionRange = data->SelectionEnd - data->SelectionStart;
                 prevContent = std::string(data->Buf, data->BufTextLen);
                 return 0;
             };
