@@ -41,6 +41,17 @@ inline int Utf8CharSize(const char* utf8Char)
 }
 
 
+inline size_t Utf8PreviousCodePoint(const char* str, size_t index)
+{
+    assert(index > 0);
+    // Move backward until the start of the current character is found
+    while ((str[--index] & 0xC0) == 0x80);
+
+    // The current index is now the start of the previous character
+    return index;
+}
+
+
 inline void Application()
 {
     Image img;
@@ -111,6 +122,22 @@ inline void Application()
                     std::memcpy(data->Buf, prevContent.data(), data->BufSize - charSize);
                     data->BufTextLen = (int)prevContent.size();
                     data->BufDirty = true;
+                }
+
+                if (ImGui::IsKeyPressed(ImGuiKey_Delete))
+                {
+                    int charSize = 0;
+                    size_t prevChar = 0;
+                    if (data->CursorPos > 0)
+                    {
+                        prevChar = Utf8PreviousCodePoint(prevContent.c_str(), data->CursorPos);
+                        charSize = Utf8CharSize(&prevContent.c_str()[prevChar]);
+                        prevContent.erase(prevChar, charSize);
+                    }
+                    std::memcpy(data->Buf, prevContent.data(), data->BufSize - charSize);
+                    data->BufTextLen = (int)prevContent.size();
+                    data->BufDirty = true;
+                    data->CursorPos = (int)prevChar;
                 }
                 prevContent = std::string(data->Buf, data->BufTextLen);
                 return 0;
