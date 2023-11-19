@@ -84,9 +84,10 @@ inline void Application()
             {
                 if (ImGui::BeginMenu(Local::Get(Local::Item::LanguageSelectionMenu)))
                 {
-                    if (ImGui::MenuItem("Deutsch", nullptr, Local::GetLanguage() == Local::Language::German)) Local::SetLanguage(Local::Language::German);
-                    if (ImGui::MenuItem("English", nullptr, Local::GetLanguage() == Local::Language::English)) Local::SetLanguage(Local::Language::English);
-                    if (ImGui::MenuItem(u8"תירבע", nullptr, Local::GetLanguage() == Local::Language::Hebrew)) Local::SetLanguage(Local::Language::Hebrew);
+                    if (ImGui::MenuItem(Local::NameAsString(Local::Language::German), nullptr, Local::GetLanguage() == Local::Language::German)) Local::SetLanguage(Local::Language::German);
+                    if (ImGui::MenuItem(Local::NameAsString(Local::Language::English), nullptr, Local::GetLanguage() == Local::Language::English)) Local::SetLanguage(Local::Language::English);
+                    if (ImGui::MenuItem(Local::NameAsString(Local::Language::Hebrew), nullptr, Local::GetLanguage() == Local::Language::Hebrew)) Local::SetLanguage(Local::Language::Hebrew);
+                    if (ImGui::MenuItem(Local::NameAsString(Local::Language::Arabic), nullptr, Local::GetLanguage() == Local::Language::Arabic)) Local::SetLanguage(Local::Language::Arabic);
                     ImGui::EndMenu();
                 }
                 ImGui::EndMenuBar();

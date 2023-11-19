@@ -7,7 +7,7 @@ class Local
 public:
     enum class Language
     {
-        German, English, Hebrew
+        German, English, Hebrew, Arabic
     };
 
     enum class Item
@@ -161,6 +161,34 @@ public:
             m_RTLMap[Item::ErrApplicationUnhandledException]    = u8"?אירעה חריגה שלא טופלה, האם ברצונך להפעיל מחדש את היישום";
             m_RTLMap[Item::ErrApplicationUnhandledStdException] = u8"?אירעה חריגה שלא טופלה, האם ברצונך להפעיל מחדש את היישום\nמה: ";
             break;
+        case Language::Arabic:
+            m_FromLeftToRight = false;
+            m_RTLMap[Item::LanguageSelectionMenu]            = u8"لُغة";
+            m_RTLMap[Item::QRInputField]                     = u8"إدراج نص";
+            m_RTLMap[Item::QRErrorCorrection]                = u8"تصحيح الاخطاء";
+            m_RTLMap[Item::QRErrorCorrectionCombo]           = u8"_عالٍ" u8"_الربع" u8"_مُتَوَسِّط_مُنْخَفِض";
+            m_RTLMap[Item::QRIncreaseErrorCorrection]        = u8"زيادة مستوى تصحيح الخطأ تلقائيًا";
+            m_RTLMap[Item::QRIncreaseErrorCorrectionTooltip] = u8"عند تحديد هذا الخيار، قد يكون مستوى تصحيح الخطأ أعلى من المحدد إذا كان ذلك ممكنًا دون زيادة الإصدار\nيتم تحديد أصغر إصدار ممكن لرمز الاستجابة السريعة ضمن النطاق المحدد تلقائيًا للإخراج.";
+            m_RTLMap[Item::QRBorder]                         = u8"كَنار";
+            m_RTLMap[Item::QRResolution]                     = u8"تَصْميم";
+            m_RTLMap[Item::QRPrimaryColor]                   = u8"لون أصلي";
+            m_RTLMap[Item::QRSecondaryColor]                 = u8"اللون الثانوي";
+            m_RTLMap[Item::QRMinVersion]                     = u8"الحد الأدنى من الإصدار";
+            m_RTLMap[Item::QRMaxVersion]                     = u8"الإصدار الأقصى";
+            m_RTLMap[Item::QRMaskPattern]                    = u8"نمط القناع";
+            m_RTLMap[Item::QRMaskPatternTooltip]             = u8")-1 تلقائي، 0 إلى 7 يدوي(";
+            m_RTLMap[Item::QRSaveButton]                     = u8"يُوَفِّر";
+            m_RTLMap[Item::QRButtonTooltip]                  = u8"انقر لنسخ رمز الاستجابة السريعة";
+
+            m_RTLMap[Item::ErrImageOutOfMemory]                 = u8"فشل في تخصيص الذاكرة لصورة رمز الاستجابة السريعة\n(%4.2f GB) بايت %u :مطلوب\nحاول استخدام نطاق أصغر أو عرض الحدود أو تقليل الحد الأدنى للإصدار أو تقصير المحتوى";
+            m_RTLMap[Item::ErrFailedToGenerateQRCode]           = u8"%s\nتعذر إنشاء رمز QR لأنه كبير جدًا.\nللإصلاح:\n- تقليل مستوى تصحيح الخطأ\n- زيادة المستوى الأقصى\n- تقصير إدخال النص";
+            m_RTLMap[Item::ErrImageWriterFailedToOpenNFD]       = u8":فشل في فتح مربع حوار الملف\n%s";
+            m_RTLMap[Item::ErrImageWriterFailedToSaveImage]     = u8".فشل حفظ الصورة\nطريق: %s\nعرض: %d\nارتفاع: %d";
+            m_RTLMap[Item::ErrFailedToCopyImageToClipboard]     = u8"فشل نسخ الصورة إلى الحافظة\n(%s)";
+            m_RTLMap[Item::ErrApplicationBadAllocException]     = u8"فشل تخصيص الذاكرة، هل تريد إعادة تشغيل التطبيق؟";
+            m_RTLMap[Item::ErrApplicationUnhandledException]    = u8"حدث استثناء لم تتم معالجته، هل تريد إعادة تشغيل التطبيق؟";
+            m_RTLMap[Item::ErrApplicationUnhandledStdException] = u8"حدث استثناء لم تتم معالجته، هل تريد إعادة تشغيل التطبيق؟\nماذا: ";
+            break;
         }
         m_SelectedLanguage = lang;
 
@@ -177,6 +205,23 @@ public:
                 }
             }
         }
+    }
+
+    static inline const char* NameAsString(Language lang) noexcept
+    {
+        switch (lang)
+        {
+        case Language::German:
+            return "Deutsch";
+        case Language::English:
+            return "English";
+        case Language::Hebrew:
+            return u8"תירבע";
+        case Language::Arabic:
+            static const std::string arabic = []() { std::string a(u8"العَربِيّة"); Utf8Rev(a.data()); return a; }();
+            return arabic.c_str();
+        }
+        return "";
     }
 
     static inline const char* Get(Item item) noexcept
