@@ -106,7 +106,8 @@ inline void Application()
             {
                 static int prevBufLen = 0;
                 static int prevCursorPos = 0;
-                if (prevBufLen != data->BufTextLen)
+                static int prevSelectionRange = data->SelectionEnd - data->SelectionStart;
+                if (prevBufLen != data->BufTextLen && prevSelectionRange == 0)
                 {
                     data->CursorPos = prevCursorPos;
                 }
@@ -114,7 +115,6 @@ inline void Application()
                 prevBufLen = data->BufTextLen;
 
                 static std::string prevContent(data->Buf, data->BufTextLen);
-                static int prevSelectionRange = data->SelectionEnd - data->SelectionStart;
 
                 if (ImGui::IsKeyPressed(ImGuiKey_Backspace) && prevSelectionRange == 0)
                 {
