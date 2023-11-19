@@ -28,7 +28,7 @@ inline std::filesystem::path SaveFileDialog()
     else if (result == NFD_CANCEL)
         Log("[NFD] User pressed cancel");
     else // error opening the file
-        Err("Dateidialog konnte nicht geöffnet werden:\n%s", NFD_GetError());
+        Err(Local::Get(Local::Item::ErrImageWriterFailedToOpenNFD), NFD_GetError());
 
     NFD_Quit();
     return path;
@@ -66,6 +66,6 @@ inline void SaveImage(const Image& img)
     }
     catch (const std::runtime_error&)
     {
-        Err("Bild konnte nicht gespeichert werden.\nPfad: %s\nBreite: %d\nHöhe: %d\n", path.string().c_str(), img.Width(), img.Height());
+        Err(Local::Get(Local::Item::ErrImageWriterFailedToSaveImage), path.string().c_str(), img.Width(), img.Height());
     }
 }

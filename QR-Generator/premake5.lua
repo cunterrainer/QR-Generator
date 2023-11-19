@@ -87,6 +87,7 @@ project "QR-Generator"
         externalwarnings "Default"
         files "res/icon.rc"
         buildoptions { "/sdl" }
+        disablewarnings "4706"
 
     filter { "toolset:gcc* or toolset:clang*" }
         enablewarnings {

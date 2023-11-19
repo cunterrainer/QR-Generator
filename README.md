@@ -1,9 +1,13 @@
+# QR-Generator
+Generate QR codes with a good amount of customizability
+![image info](./docs/preview.PNG)
+
 # Build
 ## Prerequisites
-### Windows
+### Windows and macOS
 Nothing, everything is provided.
 ### Linux
-For the message boxes you need kdialog or xdialog installed  
+The message boxes require `kdialog` or `xdialog` to be installed  
 Following libraries have to be installed and accessible to the current user:
 - xorg (should contain:)
   - libx11
@@ -15,12 +19,12 @@ Following libraries have to be installed and accessible to the current user:
 - gdk-3
 - libpng
 - glib-2
-- libgobject-2.0 (only some distros)
+- libgobject-2.0
 
 On some distros you have to make sure to install the developement `-dev` versions.
 
 ## Using premake
-This is the prefered and only way if you want to have a visual studio project. The project uses premake as it's build system with the premake5 binaries already provided. I've tested building it with visual studio, clang and gcc, however other compilers might work aswell, just give it a try.
+This is the prefered and only way if you want to have a visual studio project. The project uses premake as it's build system with the premake5 binaries already provided. I tested building with Visual Studio, Clang and GCC, but other compilers might work too, just give it a try.
 
 For additional information use:
 
@@ -72,7 +76,7 @@ macOS
 vendor/premake5macos gmake [cc]
 ```
 
-GCC should be the default compiler on Windows and Linux, macOS uses clang as default, however you can explicitly specify it if you'd like.  
+GCC should be the default compiler on Windows and Linux, macOS uses Clang by default, but you can explicitly specify it if you want.  
 GCC:   --cc=gcc  
 Clang: --cc=clang  
 There are also other compilers available however building has only been tested with gcc, clang and msvc
@@ -88,11 +92,11 @@ Configurations:
  - release_x86
  - release_x64
 
-MacOS:
+macOS:
  - debug_universal (default, the same as just using `make`)
  - release_universal
 
-`-j` flag utilises multithreaded compilation
+`-j` flag utilises multi-threaded compilation
 
 ```
 make help

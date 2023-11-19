@@ -10,6 +10,7 @@
 #include "qrcodegen/cpp/qrcodegen.hpp"
 
 #include "Log.h"
+#include "Localization.h"
 
 class Image
 {
@@ -68,7 +69,7 @@ public:
             GLubyte* tmp = new (std::nothrow) GLubyte[NumOfChannels * wh * wh];
             if (tmp == nullptr)
             {
-                Err("Failed to allocate memory for qr code image, requested: %u bytes (%4.2f GB)\nVersuche es mit einer geringeren Skalierung, Rand breite, verringere die mindest Version oder verkürze den Inhalt", (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
+                Err(Local::Get(Local::Item::ErrImageOutOfMemory), (unsigned int)(NumOfChannels * wh * wh), (unsigned int)(NumOfChannels * wh * wh) / std::pow(10, 9));
                 return;
             }
 
