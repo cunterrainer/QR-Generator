@@ -138,7 +138,7 @@ public:
             m_RTLMap[Item::LanguageSelectionMenu]            = u8"שפה";
             m_RTLMap[Item::QRInputField]                     = u8"הכנס טקסט";
             m_RTLMap[Item::QRErrorCorrection]                = u8"תיקון שגיאות";
-            m_RTLMap[Item::QRErrorCorrectionCombo]           = u8"_גבוה_רבעון_בינוני_נמוך";
+            m_RTLMap[Item::QRErrorCorrectionCombo]           = u8" גבוה רבעון בינוני נמוך";
             m_RTLMap[Item::QRIncreaseErrorCorrection]        = u8"הגדל באופן אוטומטי את רמת תיקון השגיאות";
             m_RTLMap[Item::QRIncreaseErrorCorrectionTooltip] = u8"כאשר אפשרות זו נבחרה, רמת תיקון השגיאה עשויה להיות גבוהה מהמצוין אם הדבר אפשרי מבלי להגדיל את הגרסה\nגרסת קוד ה-RQ הקטנה ביותר האפשרית בטווח שצוין נבחרת אוטומטית לפלט.";
             m_RTLMap[Item::QRBorder]                         = u8"גבול";
@@ -166,7 +166,7 @@ public:
             m_RTLMap[Item::LanguageSelectionMenu]            = u8"لُغة";
             m_RTLMap[Item::QRInputField]                     = u8"إدراج نص";
             m_RTLMap[Item::QRErrorCorrection]                = u8"تصحيح الاخطاء";
-            m_RTLMap[Item::QRErrorCorrectionCombo]           = u8"_عالٍ" u8"_الربع" u8"_مُتَوَسِّط_مُنْخَفِض";
+            m_RTLMap[Item::QRErrorCorrectionCombo]           = u8" عالٍ" u8" الربع" u8" مُتَوَسِّط مُنْخَفِض";
             m_RTLMap[Item::QRIncreaseErrorCorrection]        = u8"زيادة مستوى تصحيح الخطأ تلقائيًا";
             m_RTLMap[Item::QRIncreaseErrorCorrectionTooltip] = u8"عند تحديد هذا الخيار، قد يكون مستوى تصحيح الخطأ أعلى من المحدد إذا كان ذلك ممكنًا دون زيادة الإصدار\nيتم تحديد أصغر إصدار ممكن لرمز الاستجابة السريعة ضمن النطاق المحدد تلقائيًا للإخراج.";
             m_RTLMap[Item::QRBorder]                         = u8"كَنار";
@@ -201,7 +201,7 @@ public:
                 Utf8Rev(val.data());
                 if (key == Item::QRErrorCorrectionCombo)
                 {
-                    val = std::regex_replace(val, std::regex("\\_"), std::string("\0", 1));
+                    val = std::regex_replace(val, std::regex("\\ "), std::string("\0", 1));
                 }
             }
         }
