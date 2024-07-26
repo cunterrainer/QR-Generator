@@ -46,7 +46,7 @@ vendor/premake5macos --help
 ## Clone
 
 ```
-git clone https://github.com/pyvyx/QR-Generator.git
+git clone https://github.com/cunterrainer/QR-Generator.git
 ```
 ```
 cd QR-Generator
