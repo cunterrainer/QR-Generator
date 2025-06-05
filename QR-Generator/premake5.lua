@@ -17,6 +17,7 @@ project "QR-Generator"
         "vendor",
         "../Dependencies/clip/include",
         "../Dependencies/GLFW/include",
+        "../Dependencies/FTXUI/include",
         "../Dependencies/ImGui/include",
         "../Dependencies/tinyfiledialogs/include",
         "../Dependencies/nativefiledialog-extended/src/include"
@@ -31,8 +32,9 @@ project "QR-Generator"
 
     links {
         "glfw",
-        "ImGui",
         "Clip",
+        "ImGui",
+        "FTXUI",
         "tinyfiledialogs",
         "nativefiledialog-extended"
     }
